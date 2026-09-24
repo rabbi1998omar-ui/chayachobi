@@ -1,83 +1,112 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ছায়াছবি</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: white;
-      text-align: center;
-    }
+<title>ছায়াছবি</title>
 
-    .header {
-      padding: 35px 20px;
-      background: linear-gradient(135deg, #111, #242424);
-    }
+<style>
+body{
+  margin:0;
+  background:#0b0b0b;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+}
 
-    h1 {
-      font-size: 38px;
-      margin: 0;
-    }
+.header{
+  padding:35px 20px;
+  background:linear-gradient(135deg,#111,#292929);
+}
 
-    .subtitle {
-      color: #aaa;
-      margin-top: 10px;
-    }
+h1{
+  font-size:38px;
+  margin:0;
+}
 
-    .box {
-      margin: 30px 20px;
-      padding: 30px 20px;
-      border: 1px solid #333;
-      border-radius: 20px;
-      background: #151515;
-    }
+.subtitle{
+  color:#aaa;
+}
 
-    button {
-      border: none;
-      padding: 15px 25px;
-      border-radius: 30px;
-      background: white;
-      color: black;
-      font-size: 16px;
-      font-weight: bold;
-    }
+.box{
+  margin:25px 18px;
+  padding:25px 15px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:20px;
+}
 
-    button:active {
-      transform: scale(0.96);
-    }
+input{
+  display:none;
+}
 
-    footer {
-      margin-top: 50px;
-      padding: 20px;
-      color: #777;
-    }
-  </style>
+.upload{
+  display:inline-block;
+  padding:15px 25px;
+  background:white;
+  color:black;
+  border-radius:30px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#preview{
+  max-width:100%;
+  margin-top:20px;
+  border-radius:15px;
+  display:none;
+}
+
+footer{
+  margin-top:40px;
+  color:#777;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>🎬 ছায়াছবি</h1>
-    <p class="subtitle">তোমার গল্প, তোমার স্মৃতি</p>
-  </div>
+<div class="header">
+  <h1>🎬 ছায়াছবি</h1>
+  <p class="subtitle">তোমার গল্প, তোমার স্মৃতি</p>
+</div>
 
-  <div class="box">
-    <h2>📸 তোমার ছবি</h2>
-    <p>তোমার প্রিয় মুহূর্তগুলো এখানে সাজাও</p>
+<div class="box">
 
-    <button onclick="alert('ছায়াছবিতে স্বাগতম ❤️')">
-      শুরু করি
-    </button>
-  </div>
+  <h2>📸 ছবি যোগ করুন</h2>
 
-  <footer>
-    © 2026 ছায়াছবি
-  </footer>
+  <p>তোমার প্রিয় ছবিটি নির্বাচন করো</p>
+
+  <label class="upload" for="photo">
+    📷 ছবি নির্বাচন
+  </label>
+
+  <input
+    type="file"
+    id="photo"
+    accept="image/*"
+    onchange="showPhoto(event)"
+  >
+
+  <img id="preview">
+
+</div>
+
+<footer>
+  © 2026 ছায়াছবি
+</footer>
+
+<script>
+function showPhoto(event){
+
+  const image = document.getElementById("preview");
+
+  image.src = URL.createObjectURL(event.target.files[0]);
+
+  image.style.display = "block";
+}
+</script>
 
 </body>
 </html>
