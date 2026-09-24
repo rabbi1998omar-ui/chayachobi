@@ -90,13 +90,24 @@ footer{
   >
 
   <img id="preview">
+<br><br>
 
+<button onclick="cinematic()">
+  🎬 Cinematic
+</button>
 </div>
 
 <footer>
   © 2026 ছায়াছবি
 </footer>
+function cinematic(){
 
+  const image = document.getElementById("preview");
+
+  image.style.filter =
+    "contrast(1.15) brightness(0.85) saturate(0.85)";
+
+}
 <script>
 function showPhoto(event){
 
