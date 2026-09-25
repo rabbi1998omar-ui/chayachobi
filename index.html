@@ -1,121 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>ছায়াছবি</title>
-
 <style>
-body{
-  margin:0;
-  background:#0b0b0b;
-  color:white;
-  font-family:Arial,sans-serif;
-  text-align:center;
-}
-
-.header{
-  padding:35px 20px;
-  background:linear-gradient(135deg,#111,#292929);
-}
-
-h1{
-  font-size:38px;
-  margin:0;
-}
-
-.subtitle{
-  color:#aaa;
-}
-
-.box{
-  margin:25px 18px;
-  padding:25px 15px;
-  background:#151515;
-  border:1px solid #333;
-  border-radius:20px;
-}
-
-input{
-  display:none;
-}
-
-.upload{
-  display:inline-block;
-  padding:15px 25px;
-  background:white;
-  color:black;
-  border-radius:30px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-#preview{
-  max-width:100%;
-  margin-top:20px;
-  border-radius:15px;
-  display:none;
-}
-
-footer{
-  margin-top:40px;
-  color:#777;
-}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#05070a;color:#fff;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
+body{overflow:hidden}.app{height:100vh;position:relative;background:#05070a}
+.top{position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 16px 10px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#05070add,transparent)}
+.logo{font-size:24px;font-weight:900;letter-spacing:.5px}.logo i{color:#ff2638;font-style:normal}
+.top .tabs{font-size:13px;opacity:.8}.top .tabs b{color:#fff;border-bottom:2px solid #ff2638;padding-bottom:7px;margin-right:15px}
+.feed{height:100%;overflow-y:auto;scroll-snap-type:y mandatory}.card{height:100vh;position:relative;scroll-snap-align:start;display:flex;align-items:flex-end;background-size:cover;background-position:center}
+.card:nth-child(1){background:radial-gradient(circle at 75% 25%,#47546c,transparent 30%),linear-gradient(145deg,#17202d,#07090d 60%,#321017)}
+.card:nth-child(2){background:radial-gradient(circle at 35% 30%,#8c654e,transparent 28%),linear-gradient(145deg,#303b46,#090b0f 65%,#1c1112)}
+.card:nth-child(3){background:radial-gradient(circle at 70% 30%,#314b55,transparent 32%),linear-gradient(145deg,#111e25,#050608 70%,#1c2428)}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.55}
+.scene span{font-size:110px;filter:drop-shadow(0 8px 25px #000)}
+.fade{position:absolute;inset:0;background:linear-gradient(transparent 45%,#000d 70%,#000 100%)}
+.info{position:relative;z-index:2;padding:0 88px 86px 16px;width:100%}.user{font-weight:800;font-size:16px}.desc{font-size:14px;line-height:1.45;margin:8px 0}.music{font-size:12px;opacity:.8}
+.actions{position:absolute;right:12px;bottom:88px;z-index:3;display:flex;flex-direction:column;gap:18px;align-items:center}.action{width:52px;text-align:center;font-size:11px}.ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#101318cc;border:1px solid #ffffff22;font-size:23px}.action.liked .ico{color:#ff2638}.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#ff2638,#5d1620);border:2px solid white;display:grid;place-items:center;font-weight:800}
+.nav{position:absolute;bottom:0;left:0;right:0;height:68px;background:#05070af5;border-top:1px solid #ffffff10;z-index:10;display:flex;justify-content:space-around;align-items:center}.nav button{border:0;background:none;color:#89909b;font-size:11px}.nav button b{display:block;font-size:21px;color:inherit}.nav button.active{color:#fff}.plus{background:#ff2638!important;color:#fff!important;width:48px;height:40px;border-radius:12px;font-size:25px!important;box-shadow:0 6px 20px #ff263855}
+.panel{position:absolute;inset:0;z-index:20;background:#07090cf8;display:none;overflow:auto;padding:25px 18px 90px}.panel.show{display:block}.back{background:none;border:0;color:#fff;font-size:25px}.title{font-size:24px;font-weight:900;margin:18px 0}.field{height:50px;border:1px solid #ffffff18;border-radius:14px;background:#101318;padding:0 15px;color:#aaa;display:flex;align-items:center;margin:10px 0}.btn{height:50px;border:0;border-radius:14px;background:#ff2638;color:#fff;font-weight:800;width:100%;font-size:15px}.uploadbox{height:190px;border:1px dashed #66707d;border-radius:18px;display:grid;place-items:center;text-align:center;margin:18px 0}.profileHead{text-align:center;padding-top:30px}.avatar.big{margin:auto;width:88px;height:88px;font-size:30px}.stats{display:flex;justify-content:space-around;margin:25px 0}.stat b{display:block;font-size:20px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.tile{height:150px;background:linear-gradient(145deg,#26313b,#0c0f13);display:grid;place-items:center;font-size:34px}.search{margin:20px 0}.row{padding:16px 4px;border-bottom:1px solid #ffffff10;display:flex;justify-content:space-between}.muted{color:#88909a;font-size:13px}.brand{text-align:center;margin-top:50px}.brand .biglogo{font-size:42px;font-weight:900}.brand .biglogo i{color:#ff2638;font-style:normal}
 </style>
 </head>
-
 <body>
+<div class="app">
+<header class="top"><div class="logo">ছায়াছবি<span>•</span></div><div class="tabs"><b>ফলোয়িং</b> আপনার জন্য</div></header>
+<main class="feed" id="feed">
+<section class="card"><div class="scene"><span>🎬</span></div><div class="fade"></div><div class="info"><div class="user">@rabbi_official ✓</div><div class="desc">শহরের আলোয়ও কিছু গল্প অন্ধকারেই থেকে যায়... 🌙<br>#ছায়াছবি #cinematic #foryou</div><div class="music">♫ Original sound — ছায়াছবি</div></div><div class="actions"><div class="avatar">R</div><div class="action like"><div class="ico">♡</div><span>24.5K</span></div><div class="action"><div class="ico">◌</div><span>342</span></div><div class="action"><div class="ico">↗</div><span>1.2K</span></div><div class="action" onclick="downloadDemo()"><div class="ico">↓</div><span>ডাউনলোড</span></div></div></section>
+<section class="card"><div class="scene"><span>🌅</span></div><div class="fade"></div><div class="info"><div class="user">@sad_love</div><div class="desc">কিছু মানুষ গল্প হয়ে যায়, শেষ হয় না... 🖤<br>#sad #love #bangla</div><div class="music">♫ নীরবতার গান</div></div><div class="actions"><div class="avatar">S</div><div class="action like"><div class="ico">♡</div><span>18.7K</span></div><div class="action"><div class="ico">◌</div><span>291</span></div><div class="action"><div class="ico">↗</div><span>845</span></div><div class="action" onclick="downloadDemo()"><div class="ico">↓</div><span>ডাউনলোড</span></div></div></section>
+<section class="card"><div class="scene"><span>🌧️</span></div><div class="fade"></div><div class="info"><div class="user">@nature_vibes</div><div class="desc">বৃষ্টির শব্দে শহরটা আজ একটু সিনেমার মতো... ☔<br>#nature #rain #cinematic</div><div class="music">♫ Rain ambience</div></div><div class="actions"><div class="avatar">N</div><div class="action like"><div class="ico">♡</div><span>31.2K</span></div><div class="action"><div class="ico">◌</div><span>517</span></div><div class="action"><div class="ico">↗</div><span>2.1K</span></div><div class="action" onclick="downloadDemo()"><div class="ico">↓</div><span>ডাউনলোড</span></div></div></section>
+</main>
+<nav class="nav"><button class="active" onclick="home()"> <b>⌂</b>হোম</button><button onclick="openPanel('search')"><b>⌕</b>আবিষ্কার</button><button class="plus" onclick="openPanel('upload')">+</button><button onclick="openPanel('notify')"><b>♡</b>ইনবক্স</button><button onclick="openPanel('profile')"><b>◯</b>প্রোফাইল</button></nav>
 
-<div class="header">
-  <h1>🎬 ছায়াছবি</h1>
-  <p class="subtitle">তোমার গল্প, তোমার স্মৃতি</p>
+<section id="upload" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="title">ভিডিও আপলোড</div><label class="uploadbox"><div><div style="font-size:45px">↑</div><b>ভিডিও নির্বাচন করুন</b><div class="muted">MP4 / MOV • সর্বোচ্চ 60 সেকেন্ড</div></div><input id="videoPicker" type="file" accept="video/*" hidden></label><div id="picked" class="field">কোনো ভিডিও নির্বাচন করা হয়নি</div><div class="field">ক্যাপশন লিখুন...</div><div class="field">#হ্যাশট্যাগ  + যোগ করুন</div><div class="field">🌐 Public ▾</div><button class="btn" onclick="postVideo()">পোস্ট করুন</button></section>
+
+<section id="profile" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="profileHead"><div class="avatar big">R</div><h2>Rabbi</h2><div class="muted">@rabbi_official</div></div><div class="stats"><div class="stat"><b>128</b><span class="muted">ফলোইং</span></div><div class="stat"><b>36</b><span class="muted">ফলোয়ার</span></div><div class="stat"><b>4.2K</b><span class="muted">লাইক</span></div></div><button class="btn">প্রোফাইল এডিট</button><div class="title" style="font-size:18px">আমার ভিডিও</div><div class="grid"><div class="tile">🎬</div><div class="tile">🌧️</div><div class="tile">🌅</div><div class="tile">🖤</div><div class="tile">🎥</div><div class="tile">✨</div></div></section>
+
+<section id="search" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="title">আবিষ্কার</div><div class="field search">⌕&nbsp;&nbsp; ভিডিও, ইউজার বা #হ্যাশট্যাগ খুঁজুন</div><div class="row"><span>#cinematic</span><b>8.7M</b></div><div class="row"><span>#bangladesh</span><b>4.3M</b></div><div class="row"><span>#love</span><b>12.4M</b></div><div class="row"><span>#nature</span><b>9.1M</b></div></section>
+
+<section id="notify" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="title">নোটিফিকেশন</div><div class="row"><span>❤️ @sadia_love আপনার ভিডিওতে লাইক দিয়েছে</span><span class="muted">2m</span></div><div class="row"><span>👤 @user123 আপনাকে ফলো করেছে</span><span class="muted">5m</span></div><div class="row"><span>💬 @ari_007 মন্তব্য করেছে</span><span class="muted">12m</span></div></section>
+
+<section id="settings" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="title">সেটিংস</div><div class="row">অ্যাকাউন্ট <span>›</span></div><div class="row">গোপনীয়তা <span>›</span></div><div class="row">নোটিফিকেশন <span>›</span></div><div class="row">ডাউনলোড <span>›</span></div><div class="row">সাহায্য <span>›</span></div><div class="brand"><div class="biglogo">ছায়াছবি<i>•</i></div><div class="muted">ছোট ভিডিও, বড় অনুভূতি</div><br><div class="muted">Version 1.0 Prototype</div></div></section>
 </div>
-
-<div class="box">
-
-  <h2>📸 ছবি যোগ করুন</h2>
-
-  <p>তোমার প্রিয় ছবিটি নির্বাচন করো</p>
-
-  <label class="upload" for="photo">
-    📷 ছবি নির্বাচন
-  </label>
-
-  <input
-    type="file"
-    id="photo"
-    accept="image/*"
-    onchange="showPhoto(event)">
-<img id="preview">
-<br><br>
-
-<button onclick="cinematic()">
-  🎬 Cinematic
-</button>
-</div>
-
-<footer>
-  © 2026 ছায়াছবি
-</footer>
-function cinematic(){
-
-  const image = document.getElementById("preview");
-
-  image.style.filter =
-    "contrast(1.15) brightness(0.85) saturate(0.85)";
-
-}
 <script>
-function showPhoto(event){
-
-  const image = document.getElementById("preview");
-
-  image.src = URL.createObjectURL(event.target.files[0]);
-
-  image.style.display = "block";
-}
+function openPanel(id){document.getElementById(id).classList.add('show')}
+function closePanel(){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'))}
+function home(){closePanel();document.getElementById('feed').scrollTo({top:0,behavior:'smooth'})}
+function downloadDemo(){alert('ডাউনলোড ফিচারটি UI prototype-এ প্রস্তুত। Real app-এ cloud video URL থেকে নিরাপদ download যুক্ত হবে।')}
+document.querySelectorAll('.like').forEach(x=>x.onclick=()=>{x.classList.toggle('liked');x.querySelector('.ico').textContent=x.classList.contains('liked')?'♥':'♡'})
+const picker=document.getElementById('videoPicker'); picker.onchange=()=>{document.getElementById('picked').textContent=picker.files[0]?picker.files[0].name:'কোনো ভিডিও নির্বাচন করা হয়নি'}
+function postVideo(){if(!picker.files.length){alert('আগে একটি ভিডিও নির্বাচন করুন');return} alert('ভিডিওটি নির্বাচিত হয়েছে। Backend যুক্ত হলে এটি server-এ upload হবে।');closePanel()}
 </script>
-
 </body>
 </html>
