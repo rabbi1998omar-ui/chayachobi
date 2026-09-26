@@ -1,2177 +1,1393 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#000000">
 <title>ছায়াছবি</title>
 
 <style>
 *{box-sizing:border-box}
-
-html,body{
+body{
   margin:0;
-  height:100%;
-  background:#05070a;
+  background:#000;
   color:#fff;
-  font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif
+  font-family:Arial,sans-serif;
+}
+button,input,textarea{font:inherit}
+
+#app{
+  max-width:600px;
+  margin:auto;
+  min-height:100vh;
+  background:#000;
 }
 
-body{overflow:hidden}
-
-.app{
-  height:100vh;
-  position:relative;
-  background:#05070a
-}
-
-.top{
-  position:absolute;
+header{
+  position:fixed;
   top:0;
-  left:0;
-  right:0;
-  z-index:5;
-  padding:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  height:55px;
+  background:rgba(0,0,0,.85);
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  background:linear-gradient(#05070add,transparent)
+  justify-content:space-between;
+  padding:0 15px;
+  z-index:100;
+  border-bottom:1px solid #222;
 }
 
 .logo{
-  font-size:24px;
-  font-weight:900
+  font-size:22px;
+  font-weight:bold;
 }
 
-.tabs{
-  font-size:13px;
-  opacity:.8
-}
-
-.tabs b{
+.headerBtn{
+  background:none;
+  border:0;
   color:#fff;
-  border-bottom:2px solid #ff2638;
-  padding-bottom:7px;
-  margin-right:15px
+  font-size:22px;
 }
 
 .feed{
-  height:100%;
-  overflow-y:auto;
-  scroll-snap-type:y mandatory
+  padding-top:55px;
+  padding-bottom:70px;
 }
 
 .card{
-  min-height:100vh;
   position:relative;
-  scroll-snap-align:start;
-  display:flex;
-  align-items:flex-end;
+  height:calc(100vh - 55px);
+  min-height:600px;
+  overflow:hidden;
   background:#111;
-  overflow:hidden
 }
 
-.cardImage{
-  position:absolute;
-  inset:0;
+.card img{
   width:100%;
   height:100%;
-  object-fit:cover
+  object-fit:cover;
 }
 
-.fade{
+.card:after{
+  content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(transparent 35%,#0008 68%,#000 100%);
-  z-index:1
+  background:linear-gradient(
+    transparent 45%,
+    rgba(0,0,0,.25) 65%,
+    rgba(0,0,0,.85)
+  );
 }
 
 .info{
-  position:relative;
-  z-index:2;
-  padding:0 88px 86px 16px;
-  width:100%
+  position:absolute;
+  bottom:25px;
+  left:15px;
+  right:80px;
+  z-index:5;
 }
 
-.user{
-  font-weight:800;
-  font-size:16px
+.username{
+  font-weight:bold;
+  font-size:17px;
+  margin-bottom:8px;
 }
 
-.desc{
-  font-size:14px;
-  line-height:1.45;
-  margin:8px 0
+.caption{
+  font-size:16px;
+  line-height:1.5;
 }
 
 .music{
-  font-size:12px;
-  opacity:.8
-}
-
-.postCaption{
   margin-top:8px;
-  font-size:14px;
-  line-height:1.5
+  color:#ddd;
+  font-size:13px;
 }
 
 .actions{
   position:absolute;
-  right:12px;
-  bottom:88px;
-  z-index:3;
+  right:10px;
+  bottom:80px;
+  z-index:10;
   display:flex;
   flex-direction:column;
   gap:18px;
-  align-items:center
 }
 
 .action{
-  width:55px;
-  text-align:center;
-  font-size:10px
-}
-
-.ico{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#101318cc;
-  border:1px solid #ffffff22;
-  font-size:23px
-}
-
-.action.liked .ico{
-  color:#ff2638
-}
-
-.avatar{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#ff2638,#5d1620);
-  border:2px solid white;
-  display:grid;
-  place-items:center;
-  font-weight:800
-}
-
-.nav{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:68px;
-  background:#05070af5;
-  border-top:1px solid #ffffff10;
-  z-index:10;
-  display:flex;
-  justify-content:space-around;
-  align-items:center
-}
-
-.nav button{
   border:0;
   background:none;
-  color:#89909b;
-  font-size:11px
+  color:#fff;
+  font-size:27px;
+  text-align:center;
 }
 
-.nav button b{
+.action small{
   display:block;
-  font-size:21px
+  font-size:11px;
+  margin-top:2px;
 }
 
-.nav button.active{
-  color:#fff
+.liked{
+  color:#ff3155;
 }
 
-.plus{
-  background:#ff2638!important;
-  color:#fff!important;
-  width:48px;
-  height:40px;
-  border-radius:12px;
-  font-size:25px!important
+.bottomNav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  height:65px;
+  background:rgba(0,0,0,.95);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:100;
+  border-top:1px solid #222;
+}
+
+.navBtn{
+  border:0;
+  background:none;
+  color:#aaa;
+  font-size:12px;
+}
+
+.navBtn span{
+  display:block;
+  font-size:23px;
+  margin-bottom:2px;
+}
+
+.navBtn.active{
+  color:#fff;
 }
 
 .panel{
-  position:absolute;
-  inset:0;
-  z-index:20;
-  background:#07090cf8;
   display:none;
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:200;
   overflow:auto;
-  padding:25px 18px 90px
+  padding:20px;
+  padding-bottom:90px;
 }
 
 .panel.show{
-  display:block
-}
-
-.back{
-  background:none;
-  border:0;
-  color:#fff;
-  font-size:25px
-}
-
-.title{
-  font-size:24px;
-  font-weight:900;
-  margin:18px 0
-}
-
-.field{
-  min-height:50px;
-  border:1px solid #ffffff18;
-  border-radius:14px;
-  background:#101318;
-  padding:14px 15px;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  margin:10px 0
-}
-
-.textarea{
-  width:100%;
-  min-height:90px;
-  resize:none;
-  outline:none;
-  font-family:inherit
-}
-
-.btn{
-  min-height:50px;
-  border:0;
-  border-radius:14px;
-  background:#ff2638;
-  color:#fff;
-  font-weight:800;
-  width:100%;
-  font-size:15px;
-  margin-top:8px
-}
-
-.uploadbox{
-  height:150px;
-  border:1px dashed #66707d;
-  border-radius:18px;
-  display:grid;
-  place-items:center;
-  text-align:center;
-  margin:18px 0;
-  cursor:pointer
-}
-
-.preview{
-  display:none;
-  position:relative;
-  margin:15px 0;
-  border-radius:18px;
-  overflow:hidden;
-  background:#101318;
-  border:1px solid #ffffff15
-}
-
-.preview img{
-  width:100%;
   display:block;
-  max-height:420px;
-  object-fit:contain
 }
 
-.previewText{
-  position:absolute;
-  left:10px;
-  right:10px;
-  bottom:25px;
-  text-align:center;
-  font-weight:900;
-  text-shadow:0 3px 10px #000;
-  pointer-events:none;
-  white-space:pre-wrap;
-  word-break:break-word
-}
-
-.filter-title{
-  font-weight:800;
-  margin-top:18px
-}
-
-.filters{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-  margin:10px 0 18px
-}
-
-.filters button{
-  height:44px;
-  border:1px solid #ffffff22;
-  border-radius:10px;
-  background:#15191f;
-  color:#fff;
-  font-size:11px
-}
-
-.filters button.active{
-  background:#ff2638;
-  border-color:#ff2638
-}
-
-.control{
-  margin:14px 0
-}
-
-.controlTop{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:6px
-}
-
-.control input[type=range]{
-  width:100%
-}
-
-.colorRow{
-  display:flex;
-  gap:10px;
-  align-items:center
-}
-
-.colorRow input{
-  width:55px;
-  height:45px;
+.close{
   border:0;
-  padding:0;
-  background:none
+  background:none;
+  color:#fff;
+  font-size:28px;
+  float:right;
 }
 
-.profileHead{
+.panel h2{
+  clear:both;
+  padding-top:15px;
+}
+
+input,textarea{
+  width:100%;
+  background:#171717;
+  border:1px solid #333;
+  color:#fff;
+  padding:12px;
+  border-radius:8px;
+  margin:7px 0;
+}
+
+textarea{
+  min-height:80px;
+  resize:none;
+}
+
+.primary{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:8px;
+  background:#fff;
+  color:#000;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.secondary{
+  width:100%;
+  padding:12px;
+  border:1px solid #444;
+  border-radius:8px;
+  background:#111;
+  color:#fff;
+  margin-top:8px;
+}
+
+.switch{
   text-align:center;
-  padding-top:30px
+  margin-top:18px;
+  color:#aaa;
 }
 
-.avatar.big{
-  margin:auto;
-  width:88px;
-  height:88px;
-  font-size:30px
+.switch b{
+  color:#fff;
+}
+
+.editorPreview{
+  width:100%;
+  max-height:400px;
+  object-fit:contain;
+  background:#111;
+  border-radius:10px;
+  margin:15px 0;
+}
+
+.filterRow{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin:10px 0;
+}
+
+.filterBtn{
+  flex:none;
+  background:#181818;
+  color:#fff;
+  border:1px solid #333;
+  padding:9px 13px;
+  border-radius:20px;
+}
+
+.rangeLabel{
+  margin-top:10px;
+  font-size:13px;
+  color:#bbb;
+}
+
+.range{
+  width:100%;
+}
+
+.textPreview{
+  position:relative;
+}
+
+.textOverlay{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-weight:bold;
+  text-align:center;
+  width:90%;
+  pointer-events:none;
+}
+
+.profileTop{
+  text-align:center;
+  padding-top:35px;
+}
+
+.avatar{
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#222;
 }
 
 .stats{
   display:flex;
   justify-content:space-around;
-  margin:25px 0
+  margin:25px 0;
 }
 
 .stat b{
   display:block;
-  font-size:20px
+  font-size:20px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:3px
+  gap:3px;
 }
 
-.tile{
-  height:150px;
-  background:#171b21;
-  display:grid;
-  place-items:center;
-  font-size:34px;
-  background-size:cover;
-  background-position:center
+.grid img{
+  width:100%;
+  aspect-ratio:1;
+  object-fit:cover;
 }
 
-.row{
-  padding:16px 4px;
-  border-bottom:1px solid #ffffff10;
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:300;
+  align-items:flex-end;
+}
+
+.overlay.show{
   display:flex;
-  justify-content:space-between
 }
 
-.muted{
-  color:#88909a;
-  font-size:13px
+.box{
+  width:100%;
+  max-width:600px;
+  margin:auto;
+  background:#111;
+  border-radius:18px 18px 0 0;
+  padding:18px;
+  max-height:75vh;
+  overflow:auto;
+}
+
+.commentItem{
+  border-bottom:1px solid #292929;
+  padding:10px 0;
+}
+
+.commentUser{
+  font-weight:bold;
+}
+
+.shareBtn{
+  width:100%;
+  padding:12px;
+  background:#fff;
+  border:0;
+  border-radius:8px;
+  margin-top:8px;
+}
+
+.deleteBtn{
+  color:#ff4b5c;
 }
 
 .empty{
   text-align:center;
-  padding:70px 20px;
-  color:#89909b
-}
-
-/* COMMENT BOX */
-
-.commentBox{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:50;
-  background:#0b0d11;
-  border-top:1px solid #ffffff18;
-  padding:12px;
-  display:none
-}
-
-.commentBox.show{
-  display:block
-}
-
-.commentTitle{
-  font-weight:800;
-  margin-bottom:10px
-}
-
-.commentInputRow{
-  display:flex;
-  gap:8px
-}
-
-.commentInput{
-  flex:1;
-  height:45px;
-  border:1px solid #ffffff20;
-  border-radius:12px;
-  background:#171a20;
-  color:#fff;
-  padding:0 12px;
-  outline:none
-}
-
-.commentSend{
-  width:70px;
-  border:0;
-  border-radius:12px;
-  background:#ff2638;
-  color:#fff;
-  font-weight:800
-}
-
-.commentsList{
-  max-height:180px;
-  overflow:auto;
-  margin-bottom:10px
-}
-
-.commentItem{
-  padding:8px 0;
-  border-bottom:1px solid #ffffff0d;
-  font-size:13px
-}
-
-.commentUser{
-  font-weight:800
-}
-
-/* SHARE */
-
-.shareBox{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:60;
-  background:#101318;
-  border-radius:20px 20px 0 0;
-  padding:20px;
-  display:none;
-  box-shadow:0 -10px 40px #000
-}
-
-.shareBox.show{
-  display:block
-}
-
-.shareButtons{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-top:15px
-}
-
-.shareButton{
-  min-height:65px;
-  border:1px solid #ffffff15;
-  border-radius:14px;
-  background:#171a20;
-  color:#fff
-}
-
-/* DELETE */
-
-.deleteBtn{
-  background:#161a20!important;
-  color:#ff5a68!important;
-  border:1px solid #ff263844!important
+  color:#777;
+  padding:50px 10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div id="app">
 
-<header class="top">
-  <div class="logo">ছায়াছবি•</div>
-
-  <div class="tabs">
-    <b>ফলোয়িং</b> আপনার জন্য
-  </div>
+<header>
+  <div class="logo">ছায়াছবি</div>
+  <button class="headerBtn" onclick="openPanel('searchPanel')">⌕</button>
 </header>
 
+<div id="feed" class="feed">
 
-<main class="feed" id="feed">
-
-<section class="card">
-
-  <div style="position:absolute;inset:0;background:linear-gradient(145deg,#17202d,#07090d 60%,#321017)"></div>
-
-  <div class="fade"></div>
-
-  <div class="info">
-
-    <div class="user">@rabbi_official ✓</div>
-
-    <div class="desc">
-      শহরের আলোয়ও কিছু গল্প অন্ধকারেই থেকে যায়... 🌙<br>
-      #ছায়াছবি #cinematic #foryou
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80">
+    <div class="info">
+      <div class="username">@rabbi_official</div>
+      <div class="caption">কিছু অনুভূতি ছবির মতো—চোখে দেখা যায়, কিন্তু কাউকে বোঝানো যায় না।</div>
+      <div class="music">♫ Original sound</div>
     </div>
-
-    <div class="music">
-      ♫ Original sound — ছায়াছবি
+    <div class="actions">
+      <button class="action" onclick="staticLike(this)">♡<small>0</small></button>
+      <button class="action" onclick="alert('কমেন্ট করতে নিজের পোস্ট ব্যবহার করুন')">💬<small>0</small></button>
+      <button class="action" onclick="shareStatic()">↗<small>Share</small></button>
     </div>
-
   </div>
 
-
-  <div class="actions">
-
-    <div class="avatar">R</div>
-
-    <div class="action like">
-
-      <div class="ico">♡</div>
-
-      <span>24.5K</span>
-
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80">
+    <div class="info">
+      <div class="username">@sad_love</div>
+      <div class="caption">কিছু মানুষ গল্প হয়ে যায়, অথচ গল্পটা শেষ করতে মন চায় না।</div>
+      <div class="music">♫ Sad memories</div>
     </div>
-
-    <div class="action">
-
-      <div class="ico">◌</div>
-
-      <span>342</span>
-
+    <div class="actions">
+      <button class="action" onclick="staticLike(this)">♡<small>0</small></button>
+      <button class="action">💬<small>0</small></button>
+      <button class="action" onclick="shareStatic()">↗<small>Share</small></button>
     </div>
-
-    <div class="action">
-
-      <div class="ico">↗</div>
-
-      <span>1.2K</span>
-
-    </div>
-
   </div>
 
-</section>
+  <div id="userPosts"></div>
+</div>
 
+<!-- LOGIN -->
+<div id="authPanel" class="panel">
+  <button class="close" onclick="closePanel('authPanel')">×</button>
 
-<section class="card">
+  <div style="max-width:420px;margin:70px auto">
 
-  <div style="position:absolute;inset:0;background:linear-gradient(145deg,#303b46,#090b0f 65%,#1c1112)"></div>
+    <h1 style="text-align:center">ছায়াছবি</h1>
+    <p style="text-align:center;color:#888" id="authTitle">Login</p>
 
-  <div class="fade"></div>
+    <input id="authEmail" type="email" placeholder="Email">
+    <input id="authPassword" type="password" placeholder="Password">
 
-  <div class="info">
+    <button class="primary" id="authButton" onclick="loginUser()">
+      Login
+    </button>
 
-    <div class="user">@sad_love</div>
+    <button class="secondary" id="logoutButton" onclick="logoutUser()" style="display:none">
+      Logout
+    </button>
 
-    <div class="desc">
-      কিছু মানুষ গল্প হয়ে যায়, শেষ হয় না... 🖤<br>
-      #sad #love #bangla
+    <div class="switch" id="authSwitch">
+      অ্যাকাউন্ট নেই?
+      <b onclick="showSignup()" style="cursor:pointer">Signup</b>
     </div>
 
-    <div class="music">
-      ♫ নীরবতার গান
-    </div>
+    <div id="authMessage" style="text-align:center;margin-top:15px;color:#aaa"></div>
 
   </div>
-
-
-  <div class="actions">
-
-    <div class="avatar">S</div>
-
-    <div class="action like">
-
-      <div class="ico">♡</div>
-
-      <span>18.7K</span>
-
-    </div>
-
-    <div class="action">
-
-      <div class="ico">◌</div>
-
-      <span>291</span>
-
-    </div>
-
-    <div class="action">
-
-      <div class="ico">↗</div>
-
-      <span>845</span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<div id="userPosts"></div>
-
-</main>
-
-
-<nav class="nav">
-
-<button class="active" onclick="home()">
-<b>⌂</b>হোম
-</button>
-
-<button onclick="openPanel('search')">
-<b>⌕</b>আবিষ্কার
-</button>
-
-<button class="plus" onclick="openPanel('upload')">
-+
-</button>
-
-<button onclick="openPanel('notify')">
-<b>♡</b>ইনবক্স
-</button>
-
-<button onclick="openPanel('profile')">
-<b>◯</b>প্রোফাইল
-</button>
-
-</nav>
-
+</div>
 
 <!-- UPLOAD -->
+<div id="uploadPanel" class="panel">
+  <button class="close" onclick="closePanel('uploadPanel')">×</button>
 
-<section id="upload" class="panel">
+  <h2>নতুন পোস্ট</h2>
 
-<button class="back" onclick="closePanel()">‹</button>
+  <input type="file" id="imageInput" accept="image/*">
 
-<div class="title">
-ছবি এডিট করুন
+  <div class="textPreview">
+    <img id="preview" class="editorPreview" style="display:none">
+    <div id="textOverlay" class="textOverlay"></div>
+  </div>
+
+  <div class="filterRow">
+    <button class="filterBtn" onclick="setFilter('none')">Normal</button>
+    <button class="filterBtn" onclick="setFilter('cinematic')">Cinematic</button>
+    <button class="filterBtn" onclick="setFilter('dark')">Dark</button>
+    <button class="filterBtn" onclick="setFilter('vintage')">Vintage</button>
+  </div>
+
+  <div class="rangeLabel">Brightness</div>
+  <input class="range" id="brightness" type="range" min="50" max="150" value="100" oninput="updateAdjustments()">
+
+  <div class="rangeLabel">Contrast</div>
+  <input class="range" id="contrast" type="range" min="50" max="150" value="100" oninput="updateAdjustments()">
+
+  <div class="rangeLabel">Saturation</div>
+  <input class="range" id="saturation" type="range" min="0" max="200" value="100" oninput="updateAdjustments()">
+
+  <input id="imageText" placeholder="ছবির উপর লেখা" oninput="updateTextPreview()">
+
+  <input id="captionInput" placeholder="ক্যাপশন লিখুন">
+
+  <label>Text color</label>
+  <input id="textColor" type="color" value="#ffffff" onchange="updateTextPreview()">
+
+  <div class="rangeLabel">Text size</div>
+  <input class="range" id="textSize" type="range" min="14" max="50" value="26" oninput="updateTextPreview()">
+
+  <button class="secondary" onclick="downloadImage()">ছবি Save করুন</button>
+  <button class="primary" onclick="postImage()">পোস্ট করুন</button>
 </div>
-
-
-<label class="uploadbox" for="imagePicker">
-
-<div>
-
-<div style="font-size:45px">📷</div>
-
-<b>ছবি নির্বাচন করুন</b>
-
-<div class="muted">
-JPG / PNG / WEBP
-</div>
-
-</div>
-
-</label>
-
-
-<input
-id="imagePicker"
-type="file"
-accept="image/*"
-hidden
->
-
-
-<div id="imagePreview" class="preview">
-
-<img id="previewImg">
-
-<div id="previewText" class="previewText"></div>
-
-</div>
-
-
-<div id="pickedImage" class="field">
-কোনো ছবি নির্বাচন করা হয়নি
-</div>
-
-
-<div class="filter-title">
-🎨 ফিল্টার
-</div>
-
-
-<div class="filters">
-
-<button onclick="applyFilter('normal')" id="filterNormal" class="active">
-Normal
-</button>
-
-<button onclick="applyFilter('cinematic')" id="filterCinematic">
-Cinematic
-</button>
-
-<button onclick="applyFilter('dark')" id="filterDark">
-Dark
-</button>
-
-<button onclick="applyFilter('vintage')" id="filterVintage">
-Vintage
-</button>
-
-</div>
-
-
-<div class="filter-title">
-☀️ আলো ও রং
-</div>
-
-
-<div class="control">
-
-<div class="controlTop">
-<span>Brightness</span>
-<span id="brightnessValue">100%</span>
-</div>
-
-<input
-id="brightness"
-type="range"
-min="40"
-max="160"
-value="100"
-oninput="updateAdjustments()"
->
-
-</div>
-
-
-<div class="control">
-
-<div class="controlTop">
-<span>Contrast</span>
-<span id="contrastValue">100%</span>
-</div>
-
-<input
-id="contrast"
-type="range"
-min="50"
-max="170"
-value="100"
-oninput="updateAdjustments()"
->
-
-</div>
-
-
-<div class="control">
-
-<div class="controlTop">
-<span>Saturation</span>
-<span id="saturationValue">100%</span>
-</div>
-
-<input
-id="saturation"
-type="range"
-min="0"
-max="180"
-value="100"
-oninput="updateAdjustments()"
->
-
-</div>
-
-
-<div class="filter-title">
-✍️ ছবির ওপর লেখা
-</div>
-
-
-<textarea
-id="textInput"
-class="field textarea"
-placeholder="এখানে ছবির ওপর লেখা লিখুন..."
-oninput="updateTextPreview()"
-></textarea>
-
-
-<div class="colorRow">
-
-<div style="flex:1">
-
-<div class="controlTop">
-
-<span>লেখার সাইজ</span>
-
-<span id="textSizeValue">
-24px
-</span>
-
-</div>
-
-
-<input
-id="textSize"
-type="range"
-min="12"
-max="60"
-value="24"
-oninput="updateTextPreview()"
-style="width:100%"
->
-
-</div>
-
-
-<input
-id="textColor"
-type="color"
-value="#ffffff"
-oninput="updateTextPreview()"
->
-
-</div>
-
-
-<textarea
-id="captionInput"
-class="field textarea"
-placeholder="পোস্টের ক্যাপশন লিখুন..."
-></textarea>
-
-
-<button class="btn" onclick="downloadImage()">
-💾 এডিট করা ছবি Save করুন
-</button>
-
-
-<button class="btn" onclick="postImage()">
-🚀 ছবি পোস্ট করুন
-</button>
-
-</section>
-
 
 <!-- PROFILE -->
+<div id="profilePanel" class="panel">
+  <button class="close" onclick="closePanel('profilePanel')">×</button>
 
-<section id="profile" class="panel">
+  <div class="profileTop">
+    <div style="font-size:60px">👤</div>
+    <h2 id="profileName">@guest</h2>
+    <p id="profileEmail" style="color:#777"></p>
+  </div>
 
-<button class="back" onclick="closePanel()">‹</button>
+  <div class="stats">
+    <div class="stat"><b id="postCount">0</b>Posts</div>
+    <div class="stat"><b id="followers">0</b>Followers</div>
+    <div class="stat"><b id="totalLikes">0</b>Likes</div>
+  </div>
 
-<div class="profileHead">
+  <div class="grid" id="profileGrid"></div>
 
-<div class="avatar big">
-R
+  <button class="secondary" onclick="openPanel('authPanel')">Login / Signup</button>
 </div>
-
-<h2>Rabbi</h2>
-
-<div class="muted">
-@rabbi_official
-</div>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-
-<b id="postCount">
-0
-</b>
-
-<span class="muted">
-পোস্ট
-</span>
-
-</div>
-
-
-<div class="stat">
-
-<b>
-36
-</b>
-
-<span class="muted">
-ফলোয়ার
-</span>
-
-</div>
-
-
-<div class="stat">
-
-<b id="totalLikes">
-0
-</b>
-
-<span class="muted">
-লাইক
-</span>
-
-</div>
-
-</div>
-
-
-<div class="title" style="font-size:18px">
-আমার পোস্ট
-</div>
-
-
-<div id="profilePosts" class="grid">
-</div>
-
-</section>
-
 
 <!-- SEARCH -->
-
-<section id="search" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="title">
-আবিষ্কার
+<div id="searchPanel" class="panel">
+  <button class="close" onclick="closePanel('searchPanel')">×</button>
+  <h2>Search</h2>
+  <input id="searchInput" placeholder="ইউজার বা ক্যাপশন খুঁজুন" oninput="searchPosts()">
+  <div id="searchResults"></div>
 </div>
 
-<div class="field">
-⌕&nbsp;&nbsp; ভিডিও, ইউজার বা #হ্যাশট্যাগ খুঁজুন
+<!-- NOTIFICATIONS -->
+<div id="notificationPanel" class="panel">
+  <button class="close" onclick="closePanel('notificationPanel')"></button>
+  <h2>Notifications</h2>
+  <div class="empty">এখনো কোনো notification নেই।</div>
 </div>
 
-<div class="row">
-<span>#cinematic</span>
-<b>8.7M</b>
+<!-- COMMENTS -->
+<div id="commentBox" class="overlay">
+  <div class="box">
+    <button class="close" onclick="closeComments()">×</button>
+    <h3>Comments</h3>
+
+    <div id="commentsList"></div>
+
+    <input id="commentInput" placeholder="একটি কমেন্ট লিখুন...">
+    <button class="primary" onclick="sendComment()">Comment</button>
+  </div>
 </div>
-
-<div class="row">
-<span>#bangladesh</span>
-<b>4.3M</b>
-</div>
-
-<div class="row">
-<span>#love</span>
-<b>12.4M</b>
-</div>
-
-<div class="row">
-<span>#nature</span>
-<b>9.1M</b>
-</div>
-
-</section>
-
-
-<!-- NOTIFICATION -->
-
-<section id="notify" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="title">
-নোটিফিকেশন
-</div>
-
-<div class="row">
-<span>❤️ @sadia_love আপনার পোস্টে লাইক দিয়েছে</span>
-<span class="muted">2m</span>
-</div>
-
-<div class="row">
-<span>👤 @user123 আপনাকে ফলো করেছে</span>
-<span class="muted">5m</span>
-</div>
-
-<div class="row">
-<span>💬 @ari_007 মন্তব্য করেছে</span>
-<span class="muted">12m</span>
-</div>
-
-</section>
-
-
-<!-- COMMENT -->
-
-<div id="commentBox" class="commentBox">
-
-<div class="commentTitle">
-💬 মন্তব্য
-</div>
-
-<div id="commentsList" class="commentsList">
-</div>
-
-<div class="commentInputRow">
-
-<input
-id="commentInput"
-class="commentInput"
-placeholder="একটি মন্তব্য লিখুন..."
->
-
-<button
-class="commentSend"
-onclick="sendComment()"
->
-পাঠান
-</button>
-
-</div>
-
-<button
-class="btn"
-onclick="closeComments()"
-style="margin-top:10px"
->
-বন্ধ করুন
-</button>
-
-</div>
-
 
 <!-- SHARE -->
+<div id="shareBox" class="overlay">
+  <div class="box">
+    <button class="close" onclick="closeShare()">×</button>
+    <h3>Share Post</h3>
 
-<div id="shareBox" class="shareBox">
-
-<div class="title" style="margin-top:0">
-↗️ পোস্ট শেয়ার করুন
+    <button class="shareBtn" onclick="copyPostLink()">🔗 Copy link</button>
+    <button class="shareBtn" onclick="nativeShare()">📤 Share</button>
+  </div>
 </div>
 
-<div class="shareButtons">
+<div class="bottomNav">
+  <button class="navBtn active" onclick="home()">
+    <span>⌂</span>Home
+  </button>
 
-<button class="shareButton" onclick="copyPostLink()">
-🔗<br>লিংক কপি
-</button>
+  <button class="navBtn" onclick="openPanel('searchPanel')">
+    <span>⌕</span>Discover
+  </button>
 
-<button class="shareButton" onclick="nativeShare()">
-📤<br>শেয়ার
-</button>
+  <button class="navBtn" onclick="openPanel('uploadPanel')">
+    <span>＋</span>Create
+  </button>
 
-<button class="shareButton" onclick="closeShare()">
-✕<br>বন্ধ
-</button>
+  <button class="navBtn" onclick="openPanel('notificationPanel')">
+    <span>♡</span>Inbox
+  </button>
 
+  <button class="navBtn" onclick="openProfile()">
+    <span>◉</span>Profile
+  </button>
 </div>
 
 </div>
 
-</div>
+<!-- Firebase -->
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD183Gf7vXbLlMnhqXcx0wgKkiR5MmO-9E",
+  authDomain: "chhayachobi-1396a.firebaseapp.com",
+  projectId: "chhayachobi-1396a",
+  storageBucket: "chhayachobi-1396a.firebasestorage.app",
+  messagingSenderId: "299582486107",
+  appId: "1:299582486107:web:e3d5258d3a9bb76d41b17e",
+  measurementId: "G-R1BC7JJWLM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.firebaseAuth = auth;
+window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+window.signOutFirebase = signOut;
+
+onAuthStateChanged(auth, (user) => {
+
+  if(user){
+
+    document.getElementById("profileName").textContent =
+      user.email ? "@" + user.email.split("@")[0] : "@user";
+
+    document.getElementById("profileEmail").textContent =
+      user.email || "";
+
+    document.getElementById("authTitle").textContent =
+      "Logged in";
+
+    document.getElementById("authButton").style.display="none";
+    document.getElementById("logoutButton").style.display="block";
+    document.getElementById("authSwitch").style.display="none";
+
+  }else{
+
+    document.getElementById("profileName").textContent="@guest";
+    document.getElementById("profileEmail").textContent="";
+
+    document.getElementById("authTitle").textContent="Login";
+
+    document.getElementById("authButton").style.display="block";
+    document.getElementById("logoutButton").style.display="none";
+    document.getElementById("authSwitch").style.display="block";
+  }
+
+});
+
+window.loginUser = async function(){
+
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+
+  if(!email || !password){
+    showAuthMessage("Email ও Password দিন");
+    return;
+  }
+
+  try{
+
+    await signInWithEmailAndPassword(auth,email,password);
+
+    showAuthMessage("Login সফল হয়েছে ✅");
+
+  }catch(error){
+
+    showAuthMessage(getFirebaseError(error));
+
+  }
+
+};
+
+window.signupUser = async function(){
+
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+
+  if(!email || !password){
+    showAuthMessage("Email ও Password দিন");
+    return;
+  }
+
+  if(password.length < 6){
+    showAuthMessage("Password কমপক্ষে ৬ অক্ষরের হতে হবে");
+    return;
+  }
+
+  try{
+
+    await createUserWithEmailAndPassword(auth,email,password);
+
+    showAuthMessage("Signup সফল হয়েছে ✅");
+
+  }catch(error){
+
+    showAuthMessage(getFirebaseError(error));
+
+  }
+
+};
+
+window.logoutUser = async function(){
+
+  await signOutFirebase(auth);
+
+  showAuthMessage("Logout হয়েছে");
+
+};
+
+window.showSignup=function(){
+
+  document.getElementById("authTitle").textContent="Signup";
+
+  document.getElementById("authButton").textContent="Signup";
+
+  document.getElementById("authButton").onclick=signupUser;
+
+  document.getElementById("authSwitch").innerHTML=
+    'আগে থেকেই অ্যাকাউন্ট আছে? <b onclick="showLogin()" style="cursor:pointer">Login</b>';
+
+};
+
+window.showLogin=function(){
+
+  document.getElementById("authTitle").textContent="Login";
+
+  document.getElementById("authButton").textContent="Login";
+
+  document.getElementById("authButton").onclick=loginUser;
+
+  document.getElementById("authSwitch").innerHTML=
+    'অ্যাকাউন্ট নেই? <b onclick="showSignup()" style="cursor:pointer">Signup</b>';
+
+};
+
+function showAuthMessage(message){
+
+  document.getElementById("authMessage").textContent=message;
+
+}
+
+function getFirebaseError(error){
+
+  if(error.code==="auth/email-already-in-use")
+    return "এই Email দিয়ে আগে থেকেই অ্যাকাউন্ট আছে।";
+
+  if(error.code==="auth/invalid-email")
+    return "Email সঠিক নয়।";
+
+  if(error.code==="auth/weak-password")
+    return "Password আরও শক্তিশালী দিন।";
+
+  if(error.code==="auth/invalid-credential")
+    return "Email অথবা Password ভুল।";
+
+  return "কাজটি সম্পন্ন করা যায়নি। আবার চেষ্টা করুন।";
+}
+
+</script>
 
 <script>
 
-let currentFilter='normal';
-
+let selectedFilter="none";
+let currentImage=null;
 let activeCommentPost=null;
-
 let activeSharePost=null;
 
-
-/* PANEL */
-
 function openPanel(id){
-
-document
-.getElementById(id)
-.classList
-.add('show');
-
+  document.getElementById(id).classList.add("show");
 }
 
-
-function closePanel(){
-
-document
-.querySelectorAll('.panel')
-.forEach(x =>
-x.classList.remove('show')
-);
-
+function closePanel(id){
+  document.getElementById(id).classList.remove("show");
 }
-
 
 function home(){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("show"));
+  window.scrollTo(0,0);
+}
 
-closePanel();
+function openProfile(){
+  updateProfile();
+  openPanel("profilePanel");
+}
 
-closeComments();
+function staticLike(btn){
 
-closeShare();
+  let count=Number(btn.querySelector("small").textContent);
 
-document
-.getElementById('feed')
-.scrollTo({
-top:0,
-behavior:'smooth'
+  if(btn.classList.contains("liked")){
+    count--;
+    btn.classList.remove("liked");
+    btn.firstChild.textContent="♡";
+  }else{
+    count++;
+    btn.classList.add("liked");
+    btn.firstChild.textContent="♥";
+  }
+
+  btn.querySelector("small").textContent=count;
+}
+
+async function shareStatic(){
+
+  const url=location.href;
+
+  if(navigator.share){
+
+    try{
+      await navigator.share({
+        title:"ছায়াছবি",
+        text:"ছায়াছবিতে একটি পোস্ট দেখুন",
+        url:url
+      });
+    }catch(e){}
+
+  }else{
+
+    await navigator.clipboard.writeText(url);
+    alert("লিংক কপি হয়েছে");
+
+  }
+}
+
+document.getElementById("imageInput").addEventListener("change",function(e){
+
+  const file=e.target.files[0];
+
+  if(!file)return;
+
+  const reader=new FileReader();
+
+  reader.onload=function(event){
+
+    currentImage=event.target.result;
+
+    const img=document.getElementById("preview");
+
+    img.src=currentImage;
+    img.style.display="block";
+
+    updateTextPreview();
+
+  };
+
+  reader.readAsDataURL(file);
+
 });
 
-}
+function setFilter(filter){
 
+  selectedFilter=filter;
 
-/* BASIC LIKE */
+  const img=document.getElementById("preview");
 
-document
-.querySelectorAll('.like')
-.forEach(x=>{
+  if(!img)return;
 
-x.onclick=()=>{
+  if(filter==="cinematic")
+    img.style.filter="contrast(120%) saturate(85%) brightness(90%)";
 
-x.classList.toggle('liked');
+  else if(filter==="dark")
+    img.style.filter="brightness(65%) contrast(120%)";
 
-x.querySelector('.ico').textContent=
-x.classList.contains('liked')
-?'♥'
-:'♡';
+  else if(filter==="vintage")
+    img.style.filter="sepia(30%) contrast(105%) saturate(85%)";
 
-};
-
-});
-
-
-/* IMAGE */
-
-const imagePicker=
-document.getElementById('imagePicker');
-
-
-imagePicker.onchange=()=>{
-
-const file=
-imagePicker.files[0];
-
-if(!file)return;
-
-
-document
-.getElementById('pickedImage')
-.textContent=
-file.name;
-
-
-const img=
-document.getElementById('previewImg');
-
-
-img.src=
-URL.createObjectURL(file);
-
-
-document
-.getElementById('imagePreview')
-.style.display='block';
-
-
-resetEditor();
-
-};
-
-
-function resetEditor(){
-
-document.getElementById('brightness').value=100;
-
-document.getElementById('contrast').value=100;
-
-document.getElementById('saturation').value=100;
-
-document.getElementById('textInput').value='';
-
-document.getElementById('captionInput').value='';
-
-currentFilter='normal';
-
-updateFilterButtons();
-
-updateAdjustments();
-
-updateTextPreview();
+  else
+    updateAdjustments();
 
 }
-
-
-/* FILTER */
-
-function applyFilter(type){
-
-currentFilter=type;
-
-updateFilterButtons();
-
-updateAdjustments();
-
-}
-
-
-function updateFilterButtons(){
-
-document
-.querySelectorAll('.filters button')
-.forEach(b=>
-b.classList.remove('active')
-);
-
-
-const id=
-'filter'+
-currentFilter.charAt(0).toUpperCase()+
-currentFilter.slice(1);
-
-
-document
-.getElementById(id)
-.classList.add('active');
-
-}
-
-
-/* ADJUSTMENTS */
 
 function updateAdjustments(){
 
-const img=
-document.getElementById('previewImg');
+  const img=document.getElementById("preview");
 
-if(!img.src)return;
+  if(!img)return;
 
+  const b=document.getElementById("brightness").value;
+  const c=document.getElementById("contrast").value;
+  const s=document.getElementById("saturation").value;
 
-let b=
-Number(
-document.getElementById('brightness').value
-);
-
-let c=
-Number(
-document.getElementById('contrast').value
-);
-
-let s=
-Number(
-document.getElementById('saturation').value
-);
-
-
-if(currentFilter==='cinematic'){
-
-b*=.90;
-c*=1.15;
-s*=.88;
+  img.style.filter=
+    `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
 
 }
-
-
-if(currentFilter==='dark'){
-
-b*=.65;
-c*=1.25;
-s*=.85;
-
-}
-
-
-if(currentFilter==='vintage'){
-
-b*=1.02;
-c*=1.08;
-s*=.78;
-
-}
-
-
-let sepia=
-currentFilter==='vintage'
-?.30
-:0;
-
-
-img.style.filter=
-`brightness(${b}%)
-contrast(${c}%)
-saturate(${s}%)
-sepia(${sepia})`;
-
-
-document.getElementById('brightnessValue').textContent=
-document.getElementById('brightness').value+'%';
-
-
-document.getElementById('contrastValue').textContent=
-document.getElementById('contrast').value+'%';
-
-
-document.getElementById('saturationValue').textContent=
-document.getElementById('saturation').value+'%';
-
-}
-
-
-/* TEXT */
 
 function updateTextPreview(){
 
-const text=
-document.getElementById('textInput').value;
+  const text=document.getElementById("imageText").value;
 
-const size=
-document.getElementById('textSize').value;
+  const overlay=document.getElementById("textOverlay");
 
-const color=
-document.getElementById('textColor').value;
+  overlay.textContent=text;
 
+  overlay.style.color=document.getElementById("textColor").value;
 
-const box=
-document.getElementById('previewText');
-
-
-box.textContent=text;
-
-box.style.fontSize=
-size+'px';
-
-box.style.color=color;
-
-
-document.getElementById('textSizeValue').textContent=
-size+'px';
-
+  overlay.style.fontSize=
+    document.getElementById("textSize").value+"px";
 }
-
-
-/* CREATE IMAGE */
 
 function createEditedImage(callback){
 
-const img=
-document.getElementById('previewImg');
+  if(!currentImage){
 
+    alert("আগে একটি ছবি নির্বাচন করুন");
+    return;
 
-const image=
-new Image();
+  }
 
+  const img=new Image();
 
-image.onload=function(){
+  img.onload=function(){
 
-const canvas=
-document.createElement('canvas');
+    const canvas=document.createElement("canvas");
 
-const ctx=
-canvas.getContext('2d');
+    canvas.width=img.width;
+    canvas.height=img.height;
 
+    const ctx=canvas.getContext("2d");
 
-canvas.width=
-image.naturalWidth;
+    const b=document.getElementById("brightness").value;
+    const c=document.getElementById("contrast").value;
+    const s=document.getElementById("saturation").value;
 
-canvas.height=
-image.naturalHeight;
+    ctx.filter=
+      `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
 
+    ctx.drawImage(img,0,0);
 
-let b=
-Number(
-document.getElementById('brightness').value
-);
+    const text=document.getElementById("imageText").value;
 
-let c=
-Number(
-document.getElementById('contrast').value
-);
+    if(text){
 
-let s=
-Number(
-document.getElementById('saturation').value
-);
+      const size=Number(document.getElementById("textSize").value);
 
+      ctx.filter="none";
+      ctx.fillStyle=document.getElementById("textColor").value;
+      ctx.font=`bold ${size}px Arial`;
+      ctx.textAlign="center";
 
-if(currentFilter==='cinematic'){
+      ctx.shadowColor="rgba(0,0,0,.7)";
+      ctx.shadowBlur=8;
 
-b*=.90;
-c*=1.15;
-s*=.88;
+      ctx.fillText(
+        text,
+        canvas.width/2,
+        canvas.height/2
+      );
 
-}
+    }
 
+    callback(canvas.toDataURL("image/jpeg",.92));
 
-if(currentFilter==='dark'){
+  };
 
-b*=.65;
-c*=1.25;
-s*=.85;
-
-}
-
-
-if(currentFilter==='vintage'){
-
-b*=1.02;
-c*=1.08;
-s*=.78;
+  img.src=currentImage;
 
 }
-
-
-let sepia=
-currentFilter==='vintage'
-?.30
-:0;
-
-
-ctx.filter=
-`brightness(${b}%)
-contrast(${c}%)
-saturate(${s}%)
-sepia(${sepia})`;
-
-
-ctx.drawImage(
-image,
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-ctx.filter='none';
-
-
-const text=
-document
-.getElementById('textInput')
-.value
-.trim();
-
-
-if(text){
-
-const size=
-Number(
-document.getElementById('textSize').value
-);
-
-const color=
-document.getElementById('textColor').value;
-
-
-ctx.fillStyle=color;
-
-ctx.font=
-`900 ${Math.max(size,20)}px sans-serif`;
-
-ctx.textAlign='center';
-
-ctx.textBaseline='bottom';
-
-ctx.shadowColor='rgba(0,0,0,.85)';
-
-ctx.shadowBlur=10;
-
-
-ctx.fillText(
-text,
-canvas.width/2,
-canvas.height-55
-);
-
-}
-
-
-callback(
-canvas.toDataURL('image/jpeg',.88)
-);
-
-};
-
-
-image.src=img.src;
-
-}
-
-
-/* DOWNLOAD */
 
 function downloadImage(){
 
-if(!imagePicker.files.length){
+  createEditedImage(function(data){
 
-alert('আগে একটি ছবি নির্বাচন করুন');
+    const a=document.createElement("a");
 
-return;
+    a.href=data;
+    a.download="chhayachobi.jpg";
 
-}
+    a.click();
 
-
-createEditedImage(data=>{
-
-const link=
-document.createElement('a');
-
-link.download=
-'chhayachobi-edited.jpg';
-
-link.href=data;
-
-link.click();
-
-alert('✅ ছবি Save হয়েছে');
-
-});
+  });
 
 }
-
-
-/* POST */
 
 function postImage(){
 
-if(!imagePicker.files.length){
+  const caption=document.getElementById("captionInput").value.trim();
 
-alert('আগে একটি ছবি নির্বাচন করুন');
+  createEditedImage(function(data){
 
-return;
+    const posts=JSON.parse(
+      localStorage.getItem("chhayachobi_posts") || "[]"
+    );
 
-}
+    posts.unshift({
+      id:Date.now(),
+      image:data,
+      caption:caption,
+      likes:0,
+      liked:false,
+      comments:[]
+    });
 
+    localStorage.setItem(
+      "chhayachobi_posts",
+      JSON.stringify(posts)
+    );
 
-const caption=
-document.getElementById('captionInput').value;
+    alert("পোস্ট হয়েছে ✅");
 
+    resetEditor();
+    closePanel("uploadPanel");
+    loadPosts();
 
-createEditedImage(data=>{
-
-const posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
-
-
-posts.unshift({
-
-id:Date.now(),
-
-image:data,
-
-caption:caption,
-
-likes:0,
-
-liked:false,
-
-comments:[]
-
-});
-
-
-localStorage.setItem(
-'chhayachobi_posts',
-JSON.stringify(posts)
-);
-
-
-alert('🎉 পোস্ট সফল হয়েছে!');
-
-loadPosts();
-
-closePanel();
-
-});
+  });
 
 }
 
+function resetEditor(){
 
-/* LOAD POSTS */
+  currentImage=null;
+
+  document.getElementById("imageInput").value="";
+  document.getElementById("preview").style.display="none";
+  document.getElementById("imageText").value="";
+  document.getElementById("captionInput").value="";
+  document.getElementById("textOverlay").textContent="";
+
+}
 
 function loadPosts(){
 
-const posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
 
+  const container=document.getElementById("userPosts");
 
-const container=
-document.getElementById('userPosts');
+  container.innerHTML="";
 
+  posts.forEach(post=>{
 
-const profile=
-document.getElementById('profilePosts');
+    const card=document.createElement("div");
 
+    card.className="card";
 
-container.innerHTML='';
+    card.innerHTML=`
 
-profile.innerHTML='';
+      <img src="${post.image}">
 
+      <div class="info">
 
-document.getElementById('postCount').textContent=
-posts.length;
+        <div class="username">@rabbi</div>
 
+        <div class="caption">
+          ${escapeHTML(post.caption || "")}
+        </div>
 
-let totalLikes=0;
+        <div class="music">♫ Chhayachobi</div>
 
-posts.forEach(post=>{
-totalLikes+=post.likes||0;
-});
+      </div>
 
+      <div class="actions">
 
-document.getElementById('totalLikes').textContent=
-totalLikes;
+        <button class="action ${post.liked ? "liked":""}"
+          onclick="togglePostLike(${post.id})">
 
+          ${post.liked ? "♥":"♡"}
 
-if(posts.length===0){
+          <small>${post.likes || 0}</small>
 
-profile.innerHTML=
-'<div class="empty">এখনও কোনো পোস্ট নেই 📷</div>';
+        </button>
 
-return;
+        <button class="action"
+          onclick="openComments(${post.id})">
+
+          💬
+
+          <small>${(post.comments||[]).length}</small>
+
+        </button>
+
+        <button class="action"
+          onclick="openShare(${post.id})">
+
+          ↗
+
+          <small>Share</small>
+
+        </button>
+
+        <button class="action deleteBtn"
+          onclick="deletePost(${post.id})">
+
+          🗑
+
+          <small>Delete</small>
+
+        </button>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+
+  updateProfile();
 
 }
-
-
-posts.forEach(post=>{
-
-const card=
-document.createElement('section');
-
-card.className='card';
-
-
-card.innerHTML=`
-
-<img class="cardImage" src="${post.image}">
-
-<div class="fade"></div>
-
-<div class="info">
-
-<div class="user">
-@rabbi_official ✓
-</div>
-
-<div class="postCaption">
-${escapeHTML(post.caption)}
-</div>
-
-<div class="music">
-♫ Original sound — ছায়াছবি
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<div class="avatar">
-R
-</div>
-
-
-<div
-class="action likePost"
-data-id="${post.id}"
->
-
-<div class="ico">
-${post.liked?'♥':'♡'}
-</div>
-
-<span>
-${post.likes||0}
-</span>
-
-</div>
-
-
-<div
-class="action commentPost"
-data-id="${post.id}"
->
-
-<div class="ico">
-💬
-</div>
-
-<span>
-${(post.comments||[]).length}
-</span>
-
-</div>
-
-
-<div
-class="action sharePost"
-data-id="${post.id}"
->
-
-<div class="ico">
-↗
-</div>
-
-<span>
-শেয়ার
-</span>
-
-</div>
-
-
-<div
-class="action deletePost"
-data-id="${post.id}"
->
-
-<div class="ico">
-🗑️
-</div>
-
-<span>
-মুছুন
-</span>
-
-</div>
-
-</div>
-
-`;
-
-
-container.appendChild(card);
-
-
-/* PROFILE TILE */
-
-const tile=
-document.createElement('div');
-
-tile.className='tile';
-
-tile.style.backgroundImage=
-`url("${post.image}")`;
-
-profile.appendChild(tile);
-
-});
-
-
-/* LIKE */
-
-document
-.querySelectorAll('.likePost')
-.forEach(button=>{
-
-button.onclick=()=>{
-
-togglePostLike(
-Number(button.dataset.id)
-);
-
-};
-
-});
-
-
-/* COMMENT */
-
-document
-.querySelectorAll('.commentPost')
-.forEach(button=>{
-
-button.onclick=()=>{
-
-openComments(
-Number(button.dataset.id)
-);
-
-};
-
-});
-
-
-/* SHARE */
-
-document
-.querySelectorAll('.sharePost')
-.forEach(button=>{
-
-button.onclick=()=>{
-
-openShare(
-Number(button.dataset.id)
-);
-
-};
-
-});
-
-
-/* DELETE */
-
-document
-.querySelectorAll('.deletePost')
-.forEach(button=>{
-
-button.onclick=()=>{
-
-deletePost(
-Number(button.dataset.id)
-);
-
-};
-
-});
-
-}
-
-
-/* LIKE */
 
 function togglePostLike(id){
 
-const posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
 
+  const post=posts.find(p=>p.id===id);
 
-const post=
-posts.find(x=>x.id===id);
+  if(!post)return;
 
-if(!post)return;
+  post.liked=!post.liked;
 
+  post.likes=post.likes || 0;
 
-if(post.liked){
+  post.likes += post.liked ? 1 : -1;
 
-post.likes=
-Math.max(0,(post.likes||0)-1);
+  if(post.likes<0)post.likes=0;
 
-post.liked=false;
+  localStorage.setItem(
+    "chhayachobi_posts",
+    JSON.stringify(posts)
+  );
 
-}else{
-
-post.likes=
-(post.likes||0)+1;
-
-post.liked=true;
+  loadPosts();
 
 }
-
-
-localStorage.setItem(
-'chhayachobi_posts',
-JSON.stringify(posts)
-);
-
-
-loadPosts();
-
-}
-
-
-/* COMMENT */
 
 function openComments(id){
 
-activeCommentPost=id;
+  activeCommentPost=id;
 
-const box=
-document.getElementById('commentBox');
+  document.getElementById("commentBox").classList.add("show");
 
-box.classList.add('show');
-
-loadComments();
+  loadComments();
 
 }
-
 
 function closeComments(){
 
-activeCommentPost=null;
+  document.getElementById("commentBox").classList.remove("show");
 
-document
-.getElementById('commentBox')
-.classList.remove('show');
+  activeCommentPost=null;
 
 }
-
 
 function loadComments(){
 
-const posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
 
+  const post=posts.find(p=>p.id===activeCommentPost);
 
-const post=
-posts.find(
-x=>x.id===activeCommentPost
-);
+  const list=document.getElementById("commentsList");
 
+  list.innerHTML="";
 
-const list=
-document.getElementById('commentsList');
+  if(!post || !post.comments || post.comments.length===0){
 
+    list.innerHTML=
+      `<div class="empty">এখনো কোনো কমেন্ট নেই।</div>`;
 
-list.innerHTML='';
+    return;
 
+  }
 
-if(!post ||
-!post.comments ||
-post.comments.length===0){
+  post.comments.forEach(comment=>{
 
-list.innerHTML=
-'<div class="muted">এখনও কোনো মন্তব্য নেই।</div>';
+    list.innerHTML+=`
 
-return;
+      <div class="commentItem">
 
-}
+        <div class="commentUser">@rabbi</div>
 
+        <div>${escapeHTML(comment)}</div>
 
-post.comments.forEach(comment=>{
+      </div>
 
-const item=
-document.createElement('div');
+    `;
 
-item.className='commentItem';
-
-item.innerHTML=
-`
-<span class="commentUser">
-@rabbi_official
-</span>
-<br>
-${escapeHTML(comment)}
-`;
-
-list.appendChild(item);
-
-});
+  });
 
 }
-
 
 function sendComment(){
 
-const input=
-document.getElementById('commentInput');
+  const input=document.getElementById("commentInput");
 
+  const text=input.value.trim();
 
-const text=
-input.value.trim();
+  if(!text)return;
 
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
 
-if(!text){
+  const post=posts.find(p=>p.id===activeCommentPost);
 
-alert('মন্তব্য লিখুন');
+  if(!post)return;
 
-return;
+  if(!post.comments)post.comments=[];
 
-}
+  post.comments.push(text);
 
+  localStorage.setItem(
+    "chhayachobi_posts",
+    JSON.stringify(posts)
+  );
 
-const posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
+  input.value="";
 
-
-const post=
-posts.find(
-x=>x.id===activeCommentPost
-);
-
-
-if(!post)return;
-
-
-if(!post.comments)
-post.comments=[];
-
-
-post.comments.push(text);
-
-
-localStorage.setItem(
-'chhayachobi_posts',
-JSON.stringify(posts)
-);
-
-
-input.value='';
-
-loadComments();
-
-loadPosts();
+  loadComments();
+  loadPosts();
 
 }
-
-
-/* SHARE */
 
 function openShare(id){
 
-activeSharePost=id;
+  activeSharePost=id;
 
-document
-.getElementById('shareBox')
-.classList.add('show');
+  document.getElementById("shareBox").classList.add("show");
 
 }
-
 
 function closeShare(){
 
-activeSharePost=null;
+  document.getElementById("shareBox").classList.remove("show");
 
-document
-.getElementById('shareBox')
-.classList.remove('show');
+  activeSharePost=null;
 
 }
 
+async function copyPostLink(){
 
-function copyPostLink(){
+  const link=
+    location.href.split("#")[0] +
+    "#post-" +
+    activeSharePost;
 
-const link=
-location.href+
-'#post-'+
-activeSharePost;
+  await navigator.clipboard.writeText(link);
 
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(link);
-
-alert('🔗 লিংক কপি হয়েছে');
-
-}else{
-
-alert('লিংক কপি করা সম্ভব হয়নি');
+  alert("Post link কপি হয়েছে");
 
 }
 
-}
+async function nativeShare(){
 
+  const link=
+    location.href.split("#")[0] +
+    "#post-" +
+    activeSharePost;
 
-function nativeShare(){
+  if(navigator.share){
 
-const link=
-location.href+
-'#post-'+
-activeSharePost;
+    try{
 
+      await navigator.share({
+        title:"ছায়াছবি",
+        text:"ছায়াছবির পোস্ট",
+        url:link
+      });
 
-if(navigator.share){
+    }catch(e){}
 
-navigator.share({
+  }else{
 
-title:'ছায়াছবি',
+    await navigator.clipboard.writeText(link);
 
-text:'ছায়াছবিতে একটি পোস্ট দেখুন',
+    alert("লিংক কপি হয়েছে");
 
-url:link
-
-});
-
-}else{
-
-copyPostLink();
-
-}
+  }
 
 }
-
-
-/* DELETE */
 
 function deletePost(id){
 
-const ok=
-confirm(
-'এই পোস্টটি মুছে ফেলতে চান?'
-);
+  if(!confirm("এই পোস্টটি Delete করবেন?"))
+    return;
 
+  let posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
 
-if(!ok)return;
+  posts=posts.filter(p=>p.id!==id);
 
+  localStorage.setItem(
+    "chhayachobi_posts",
+    JSON.stringify(posts)
+  );
 
-let posts=
-JSON.parse(
-localStorage.getItem('chhayachobi_posts')
-||'[]'
-);
-
-
-posts=
-posts.filter(
-post=>post.id!==id
-);
-
-
-localStorage.setItem(
-'chhayachobi_posts',
-JSON.stringify(posts)
-);
-
-
-loadPosts();
-
-
-alert('🗑️ পোস্ট মুছে ফেলা হয়েছে');
+  loadPosts();
 
 }
 
+function updateProfile(){
 
-/* SECURITY */
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
+
+  document.getElementById("postCount").textContent=posts.length;
+
+  const likes=posts.reduce(
+    (sum,p)=>sum+(p.likes||0),
+    0
+  );
+
+  document.getElementById("totalLikes").textContent=likes;
+
+  const grid=document.getElementById("profileGrid");
+
+  grid.innerHTML="";
+
+  posts.forEach(post=>{
+
+    const img=document.createElement("img");
+
+    img.src=post.image;
+
+    grid.appendChild(img);
+
+  });
+
+}
+
+function searchPosts(){
+
+  const q=document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const posts=JSON.parse(
+    localStorage.getItem("chhayachobi_posts") || "[]"
+  );
+
+  const results=document.getElementById("searchResults");
+
+  if(!q){
+
+    results.innerHTML=
+      `<div class="empty">কিছু লিখে Search করুন।</div>`;
+
+    return;
+
+  }
+
+  const found=posts.filter(p=>
+    (p.caption||"").toLowerCase().includes(q)
+  );
+
+  results.innerHTML="";
+
+  if(found.length===0){
+
+    results.innerHTML=
+      `<div class="empty">কোনো পোস্ট পাওয়া যায়নি।</div>`;
+
+    return;
+
+  }
+
+  found.forEach(p=>{
+
+    results.innerHTML+=`
+
+      <div style="margin:12px 0">
+
+        <img src="${p.image}"
+          style="width:100%;border-radius:10px">
+
+        <p>${escapeHTML(p.caption||"")}</p>
+
+      </div>
+
+    `;
+
+  });
+
+}
 
 function escapeHTML(text){
 
-return String(text||'')
-
-.replaceAll('&','&amp;')
-
-.replaceAll('<','&lt;')
-
-.replaceAll('>','&gt;')
-
-.replaceAll('"','&quot;')
-
-.replaceAll("'","&#039;");
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
-
-
-/* START */
 
 loadPosts();
 
