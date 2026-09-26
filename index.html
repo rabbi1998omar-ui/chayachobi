@@ -62,45 +62,29 @@ body{overflow:hidden}
 }
 
 .card{
-  height:100vh;
+  min-height:100vh;
   position:relative;
   scroll-snap-align:start;
   display:flex;
   align-items:flex-end;
   background-size:cover;
-  background-position:center
+  background-position:center;
+  overflow:hidden
 }
 
-.card:nth-child(1){
-  background:radial-gradient(circle at 75% 25%,#47546c,transparent 30%),linear-gradient(145deg,#17202d,#07090d 60%,#321017)
-}
-
-.card:nth-child(2){
-  background:radial-gradient(circle at 35% 30%,#8c654e,transparent 28%),linear-gradient(145deg,#303b46,#090b0f 65%,#1c1112)
-}
-
-.card:nth-child(3){
-  background:radial-gradient(circle at 70% 30%,#314b55,transparent 32%),linear-gradient(145deg,#111e25,#050608 70%,#1c2428)
-}
-
-.scene{
+.cardImage{
   position:absolute;
   inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:.55
-}
-
-.scene span{
-  font-size:110px;
-  filter:drop-shadow(0 8px 25px #000)
+  width:100%;
+  height:100%;
+  object-fit:cover
 }
 
 .fade{
   position:absolute;
   inset:0;
-  background:linear-gradient(transparent 45%,#000d 70%,#000 100%)
+  background:linear-gradient(transparent 35%,#0008 68%,#000 100%);
+  z-index:1
 }
 
 .info{
@@ -412,11 +396,16 @@ body{overflow:hidden}
   font-size:13px
 }
 
-.smallNote{
-  color:#8e96a3;
-  font-size:12px;
-  line-height:1.5;
-  margin-top:10px
+.postCaption{
+  margin-top:8px;
+  font-size:14px;
+  line-height:1.5
+}
+
+.empty{
+  text-align:center;
+  padding:70px 20px;
+  color:#89909b
 }
 </style>
 </head>
@@ -435,7 +424,8 @@ body{overflow:hidden}
 <main class="feed" id="feed">
 
 <section class="card">
-  <div class="scene"><span>🎬</span></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(145deg,#17202d,#07090d 60%,#321017)"></div>
+
   <div class="fade"></div>
 
   <div class="info">
@@ -448,24 +438,30 @@ body{overflow:hidden}
   </div>
 
   <div class="actions">
+
     <div class="avatar">R</div>
+
     <div class="action like">
       <div class="ico">♡</div>
       <span>24.5K</span>
     </div>
+
     <div class="action">
       <div class="ico">◌</div>
       <span>342</span>
     </div>
+
     <div class="action">
       <div class="ico">↗</div>
       <span>1.2K</span>
     </div>
+
   </div>
 </section>
 
 <section class="card">
-  <div class="scene"><span>🌅</span></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(145deg,#303b46,#090b0f 65%,#1c1112)"></div>
+
   <div class="fade"></div>
 
   <div class="info">
@@ -478,53 +474,31 @@ body{overflow:hidden}
   </div>
 
   <div class="actions">
+
     <div class="avatar">S</div>
+
     <div class="action like">
       <div class="ico">♡</div>
       <span>18.7K</span>
     </div>
+
     <div class="action">
       <div class="ico">◌</div>
       <span>291</span>
     </div>
+
     <div class="action">
       <div class="ico">↗</div>
       <span>845</span>
     </div>
+
   </div>
 </section>
 
-<section class="card">
-  <div class="scene"><span>🌧️</span></div>
-  <div class="fade"></div>
-
-  <div class="info">
-    <div class="user">@nature_vibes</div>
-    <div class="desc">
-      বৃষ্টির শব্দে শহরটা আজ একটু সিনেমার মতো... ☔<br>
-      #nature #rain #cinematic
-    </div>
-    <div class="music">♫ Rain ambience</div>
-  </div>
-
-  <div class="actions">
-    <div class="avatar">N</div>
-    <div class="action like">
-      <div class="ico">♡</div>
-      <span>31.2K</span>
-    </div>
-    <div class="action">
-      <div class="ico">◌</div>
-      <span>517</span>
-    </div>
-    <div class="action">
-      <div class="ico">↗</div>
-      <span>2.1K</span>
-    </div>
-  </div>
-</section>
+<div id="userPosts"></div>
 
 </main>
+
 
 <nav class="nav">
 
@@ -551,7 +525,7 @@ body{overflow:hidden}
 </nav>
 
 
-<!-- PHOTO EDITOR -->
+<!-- UPLOAD -->
 
 <section id="upload" class="panel">
 
@@ -571,13 +545,15 @@ body{overflow:hidden}
 
 <input id="imagePicker" type="file" accept="image/*" hidden>
 
+
 <div id="imagePreview" class="preview">
 
-  <img id="previewImg">
+<img id="previewImg">
 
-  <div id="previewText" class="previewText"></div>
+<div id="previewText" class="previewText"></div>
 
 </div>
+
 
 <div id="pickedImage" class="field">
 কোনো ছবি নির্বাচন করা হয়নি
@@ -616,14 +592,7 @@ Vintage
 <span id="brightnessValue">100%</span>
 </div>
 
-<input
-id="brightness"
-type="range"
-min="40"
-max="160"
-value="100"
-oninput="updateAdjustments()"
->
+<input id="brightness" type="range" min="40" max="160" value="100" oninput="updateAdjustments()">
 
 </div>
 
@@ -635,14 +604,7 @@ oninput="updateAdjustments()"
 <span id="contrastValue">100%</span>
 </div>
 
-<input
-id="contrast"
-type="range"
-min="50"
-max="170"
-value="100"
-oninput="updateAdjustments()"
->
+<input id="contrast" type="range" min="50" max="170" value="100" oninput="updateAdjustments()">
 
 </div>
 
@@ -654,14 +616,7 @@ oninput="updateAdjustments()"
 <span id="saturationValue">100%</span>
 </div>
 
-<input
-id="saturation"
-type="range"
-min="0"
-max="180"
-value="100"
-oninput="updateAdjustments()"
->
+<input id="saturation" type="range" min="0" max="180" value="100" oninput="updateAdjustments()">
 
 </div>
 
@@ -707,17 +662,21 @@ oninput="updateTextPreview()"
 </div>
 
 
+<textarea
+id="captionInput"
+class="field textarea"
+placeholder="পোস্টের ক্যাপশন লিখুন..."
+></textarea>
+
+
 <button class="btn" onclick="downloadImage()">
 💾 এডিট করা ছবি Save করুন
 </button>
 
+
 <button class="btn" onclick="postImage()">
 🚀 ছবি পোস্ট করুন
 </button>
-
-<div class="smallNote">
-ছবি আপনার ফোনেই এডিট হবে। Save করলে ফিল্টার, আলো, রং ও লেখা যুক্ত করা ছবি ডাউনলোড হবে।
-</div>
 
 </section>
 
@@ -741,8 +700,8 @@ oninput="updateTextPreview()"
 <div class="stats">
 
 <div class="stat">
-<b>128</b>
-<span class="muted">ফলোইং</span>
+<b id="postCount">0</b>
+<span class="muted">পোস্ট</span>
 </div>
 
 <div class="stat">
@@ -757,22 +716,11 @@ oninput="updateTextPreview()"
 
 </div>
 
-<button class="btn">
-প্রোফাইল এডিট
-</button>
-
 <div class="title" style="font-size:18px">
 আমার পোস্ট
 </div>
 
-<div class="grid">
-<div class="tile">🎬</div>
-<div class="tile">🌧️</div>
-<div class="tile">🌅</div>
-<div class="tile">🖤</div>
-<div class="tile">🎥</div>
-<div class="tile">✨</div>
-</div>
+<div id="profilePosts" class="grid"></div>
 
 </section>
 
@@ -818,9 +766,7 @@ oninput="updateTextPreview()"
 
 <button class="back" onclick="closePanel()">‹</button>
 
-<div class="title">
-নোটিফিকেশন
-</div>
+<div class="title">নোটিফিকেশন</div>
 
 <div class="row">
 <span>❤️ @sadia_love আপনার পোস্টে লাইক দিয়েছে</span>
@@ -848,18 +794,14 @@ let currentFilter = 'normal';
 
 
 function openPanel(id){
-
   document.getElementById(id).classList.add('show');
-
 }
 
 
 function closePanel(){
-
   document
   .querySelectorAll('.panel')
   .forEach(x => x.classList.remove('show'));
-
 }
 
 
@@ -897,10 +839,11 @@ document
 });
 
 
-/* IMAGE PICKER */
+/* IMAGE */
 
 const imagePicker =
 document.getElementById('imagePicker');
+
 
 imagePicker.onchange = () => {
 
@@ -908,21 +851,17 @@ imagePicker.onchange = () => {
 
   if(!file) return;
 
-  document
-  .getElementById('pickedImage')
-  .textContent = file.name;
-
-  const preview =
-  document.getElementById('imagePreview');
+  document.getElementById('pickedImage').textContent =
+    file.name;
 
   const img =
-  document.getElementById('previewImg');
+    document.getElementById('previewImg');
 
   img.src =
-  URL.createObjectURL(file);
+    URL.createObjectURL(file);
 
-  preview.style.display =
-  'block';
+  document.getElementById('imagePreview').style.display =
+    'block';
 
   resetEditor();
 
@@ -931,22 +870,18 @@ imagePicker.onchange = () => {
 
 function resetEditor(){
 
-  document.getElementById('brightness').value = 100;
-  document.getElementById('contrast').value = 100;
-  document.getElementById('saturation').value = 100;
+  document.getElementById('brightness').value=100;
+  document.getElementById('contrast').value=100;
+  document.getElementById('saturation').value=100;
 
-  document.getElementById('brightnessValue').textContent = '100%';
-  document.getElementById('contrastValue').textContent = '100%';
-  document.getElementById('saturationValue').textContent = '100%';
+  document.getElementById('textInput').value='';
+  document.getElementById('captionInput').value='';
 
-  document.getElementById('textInput').value = '';
-
-  document.getElementById('previewText').textContent = '';
-
-  currentFilter = 'normal';
+  currentFilter='normal';
 
   updateFilterButtons();
   updateAdjustments();
+  updateTextPreview();
 
 }
 
@@ -955,10 +890,9 @@ function resetEditor(){
 
 function applyFilter(type){
 
-  currentFilter = type;
+  currentFilter=type;
 
   updateFilterButtons();
-
   updateAdjustments();
 
 }
@@ -968,125 +902,98 @@ function updateFilterButtons(){
 
   document
   .querySelectorAll('.filters button')
-  .forEach(button => button.classList.remove('active'));
+  .forEach(b => b.classList.remove('active'));
 
   const id =
     'filter' +
     currentFilter.charAt(0).toUpperCase() +
     currentFilter.slice(1);
 
-  const button =
-  document.getElementById(id);
-
-  if(button){
-    button.classList.add('active');
-  }
+  document.getElementById(id).classList.add('active');
 
 }
 
 
-/* ADJUSTMENTS */
+/* ADJUST */
 
 function updateAdjustments(){
 
   const img =
-  document.getElementById('previewImg');
+    document.getElementById('previewImg');
 
   if(!img.src) return;
 
-  const brightness =
-  document.getElementById('brightness').value;
+  let b =
+    Number(document.getElementById('brightness').value);
 
-  const contrast =
-  document.getElementById('contrast').value;
+  let c =
+    Number(document.getElementById('contrast').value);
 
-  const saturation =
-  document.getElementById('saturation').value;
-
-
-  document.getElementById('brightnessValue').textContent =
-    brightness + '%';
-
-  document.getElementById('contrastValue').textContent =
-    contrast + '%';
-
-  document.getElementById('saturationValue').textContent =
-    saturation + '%';
+  let s =
+    Number(document.getElementById('saturation').value);
 
 
-  let b = Number(brightness);
-  let c = Number(contrast);
-  let s = Number(saturation);
+  if(currentFilter==='cinematic'){
+    b*=.90;
+    c*=1.15;
+    s*=.88;
+  }
 
+  if(currentFilter==='dark'){
+    b*=.65;
+    c*=1.25;
+    s*=.85;
+  }
 
-  if(currentFilter === 'cinematic'){
-
-    b *= .90;
-    c *= 1.15;
-    s *= .88;
-
+  if(currentFilter==='vintage'){
+    b*=1.02;
+    c*=1.08;
+    s*=.78;
   }
 
 
-  if(currentFilter === 'dark'){
-
-    b *= .65;
-    c *= 1.25;
-    s *= .85;
-
-  }
-
-
-  if(currentFilter === 'vintage'){
-
-    b *= 1.02;
-    c *= 1.08;
-    s *= .78;
-
-  }
-
-
-  let sepia = 0;
-
-  if(currentFilter === 'vintage'){
-    sepia = .30;
-  }
+  let sepia =
+    currentFilter==='vintage' ? .30 : 0;
 
 
   img.style.filter =
     `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
 
+
+  document.getElementById('brightnessValue').textContent =
+    document.getElementById('brightness').value+'%';
+
+  document.getElementById('contrastValue').textContent =
+    document.getElementById('contrast').value+'%';
+
+  document.getElementById('saturationValue').textContent =
+    document.getElementById('saturation').value+'%';
+
 }
 
 
-/* TEXT PREVIEW */
+/* TEXT */
 
 function updateTextPreview(){
 
   const text =
-  document.getElementById('textInput').value;
+    document.getElementById('textInput').value;
 
   const size =
-  document.getElementById('textSize').value;
+    document.getElementById('textSize').value;
 
   const color =
-  document.getElementById('textColor').value;
+    document.getElementById('textColor').value;
 
-  const previewText =
-  document.getElementById('previewText');
+  const box =
+    document.getElementById('previewText');
 
-
-  previewText.textContent =
-    text;
-
-  previewText.style.fontSize =
-    size + 'px';
-
-  previewText.style.color =
-    color;
+  box.textContent=text;
+  box.style.fontSize=size+'px';
+  box.style.color=color;
 
   document.getElementById('textSizeValue').textContent =
-    size + 'px';
+    size+'px';
 
 }
 
@@ -1098,32 +1005,24 @@ function downloadImage(){
   if(!imagePicker.files.length){
 
     alert('আগে একটি ছবি নির্বাচন করুন');
-
     return;
 
   }
 
 
-  const img =
-  document.getElementById('previewImg');
-
-  const canvas =
-  document.createElement('canvas');
-
-  const ctx =
-  canvas.getContext('2d');
-
   const image =
-  new Image();
+    new Image();
 
+  image.onload=function(){
 
-  image.onload = function(){
+    const canvas =
+      document.createElement('canvas');
 
-    canvas.width =
-    image.naturalWidth;
+    const ctx =
+      canvas.getContext('2d');
 
-    canvas.height =
-    image.naturalHeight;
+    canvas.width=image.naturalWidth;
+    canvas.height=image.naturalHeight;
 
 
     let b =
@@ -1136,34 +1035,31 @@ function downloadImage(){
       Number(document.getElementById('saturation').value);
 
 
-    if(currentFilter === 'cinematic'){
-      b *= .90;
-      c *= 1.15;
-      s *= .88;
+    if(currentFilter==='cinematic'){
+      b*=.90;
+      c*=1.15;
+      s*=.88;
     }
 
-    if(currentFilter === 'dark'){
-      b *= .65;
-      c *= 1.25;
-      s *= .85;
+    if(currentFilter==='dark'){
+      b*=.65;
+      c*=1.25;
+      s*=.85;
     }
 
-    if(currentFilter === 'vintage'){
-      b *= 1.02;
-      c *= 1.08;
-      s *= .78;
+    if(currentFilter==='vintage'){
+      b*=1.02;
+      c*=1.08;
+      s*=.78;
     }
 
 
     let sepia =
-      currentFilter === 'vintage'
-      ? .30
-      : 0;
+      currentFilter==='vintage' ? .30 : 0;
 
 
     ctx.filter =
       `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
-
 
     ctx.drawImage(
       image,
@@ -1173,95 +1069,79 @@ function downloadImage(){
       canvas.height
     );
 
-
-    ctx.filter = 'none';
+    ctx.filter='none';
 
 
     const text =
-    document.getElementById('textInput').value.trim();
+      document.getElementById('textInput').value.trim();
 
 
     if(text){
 
       const size =
-      Number(document.getElementById('textSize').value);
+        Number(document.getElementById('textSize').value);
 
       const color =
-      document.getElementById('textColor').value;
+        document.getElementById('textColor').value;
 
 
-      ctx.fillStyle =
-      color;
+      ctx.fillStyle=color;
 
-      ctx.font =
-      `900 ${Math.max(size,20)}px sans-serif`;
+      ctx.font=
+        `900 ${Math.max(size,20)}px sans-serif`;
 
-      ctx.textAlign =
-      'center';
+      ctx.textAlign='center';
+      ctx.textBaseline='bottom';
 
-      ctx.textBaseline =
-      'bottom';
-
-      ctx.shadowColor =
-      'rgba(0,0,0,.85)';
-
-      ctx.shadowBlur =
-      10;
+      ctx.shadowColor='rgba(0,0,0,.85)';
+      ctx.shadowBlur=10;
 
 
       const maxWidth =
-      canvas.width * .88;
+        canvas.width*.88;
+
+      const words=text.split(' ');
+
+      let lines=[];
+      let line='';
 
 
-      const words =
-      text.split(' ');
+      words.forEach(word=>{
 
-      let lines = [];
-      let line = '';
+        const test=
+          line ? line+' '+word : word;
 
+        if(ctx.measureText(test).width>maxWidth){
 
-      words.forEach(word => {
+          if(line) lines.push(line);
 
-        const test =
-        line
-        ? line + ' ' + word
-        : word;
-
-        if(ctx.measureText(test).width > maxWidth){
-
-          lines.push(line);
-
-          line = word;
+          line=word;
 
         }else{
 
-          line = test;
+          line=test;
 
         }
 
       });
 
 
-      if(line){
-        lines.push(line);
-      }
+      if(line) lines.push(line);
 
 
-      const lineHeight =
-      size * 1.25;
+      const lineHeight=size*1.25;
 
-      const startY =
-      canvas.height -
-      55 -
-      ((lines.length-1) * lineHeight);
+      const startY=
+        canvas.height-55-
+        ((lines.length-1)*lineHeight);
 
 
-      lines.forEach((lineText,index) => {
+      lines.forEach((lineText,index)=>{
 
         ctx.fillText(
           lineText,
           canvas.width/2,
-          startY + index*lineHeight
+          startY+index*lineHeight
         );
 
       });
@@ -1270,49 +1150,387 @@ function downloadImage(){
 
 
     const link =
-    document.createElement('a');
+      document.createElement('a');
 
-    link.download =
-    'chhayachobi-edited.jpg';
+    link.download=
+      'chhayachobi-edited.jpg';
 
-    link.href =
-    canvas.toDataURL(
-      'image/jpeg',
-      .95
-    );
+    link.href=
+      canvas.toDataURL('image/jpeg',.95);
 
     link.click();
-
-
-    alert('✅ এডিট করা ছবি Save হয়েছে');
 
   };
 
 
   image.src =
-  img.src;
+    document.getElementById('previewImg').src;
 
 }
 
 
-/* POST */
+/* REAL LOCAL POST */
 
 function postImage(){
 
   if(!imagePicker.files.length){
 
     alert('আগে একটি ছবি নির্বাচন করুন');
+    return;
+
+  }
+
+
+  const caption =
+    document.getElementById('captionInput').value;
+
+
+  const img =
+    document.getElementById('previewImg');
+
+
+  const image =
+    new Image();
+
+
+  image.onload=function(){
+
+    const canvas =
+      document.createElement('canvas');
+
+    const ctx =
+      canvas.getContext('2d');
+
+
+    canvas.width=image.naturalWidth;
+    canvas.height=image.naturalHeight;
+
+
+    let b =
+      Number(document.getElementById('brightness').value);
+
+    let c =
+      Number(document.getElementById('contrast').value);
+
+    let s =
+      Number(document.getElementById('saturation').value);
+
+
+    if(currentFilter==='cinematic'){
+      b*=.90;
+      c*=1.15;
+      s*=.88;
+    }
+
+    if(currentFilter==='dark'){
+      b*=.65;
+      c*=1.25;
+      s*=.85;
+    }
+
+    if(currentFilter==='vintage'){
+      b*=1.02;
+      c*=1.08;
+      s*=.78;
+    }
+
+
+    let sepia =
+      currentFilter==='vintage' ? .30 : 0;
+
+
+    ctx.filter =
+      `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    ctx.filter='none';
+
+
+    const text =
+      document.getElementById('textInput').value.trim();
+
+
+    if(text){
+
+      const size =
+        Number(document.getElementById('textSize').value);
+
+      const color =
+        document.getElementById('textColor').value;
+
+
+      ctx.fillStyle=color;
+
+      ctx.font=
+        `900 ${Math.max(size,20)}px sans-serif`;
+
+      ctx.textAlign='center';
+      ctx.textBaseline='bottom';
+
+      ctx.shadowColor='rgba(0,0,0,.85)';
+      ctx.shadowBlur=10;
+
+
+      ctx.fillText(
+        text,
+        canvas.width/2,
+        canvas.height-55
+      );
+
+    }
+
+
+    const finalImage =
+      canvas.toDataURL('image/jpeg',.88);
+
+
+    const posts =
+      JSON.parse(
+        localStorage.getItem('chhayachobi_posts') || '[]'
+      );
+
+
+    posts.unshift({
+
+      id:Date.now(),
+
+      image:finalImage,
+
+      caption:caption,
+
+      likes:0,
+
+      liked:false
+
+    });
+
+
+    localStorage.setItem(
+      'chhayachobi_posts',
+      JSON.stringify(posts)
+    );
+
+
+    alert('🎉 ছবি সফলভাবে পোস্ট হয়েছে!');
+
+
+    loadPosts();
+
+    closePanel();
+
+    document
+      .getElementById('feed')
+      .scrollTo({
+        top:0,
+        behavior:'smooth'
+      });
+
+  };
+
+
+  image.src=img.src;
+
+}
+
+
+/* LOAD POSTS */
+
+function loadPosts(){
+
+  const posts =
+    JSON.parse(
+      localStorage.getItem('chhayachobi_posts') || '[]'
+    );
+
+
+  const container =
+    document.getElementById('userPosts');
+
+  const profile =
+    document.getElementById('profilePosts');
+
+
+  container.innerHTML='';
+
+  profile.innerHTML='';
+
+
+  document.getElementById('postCount').textContent =
+    posts.length;
+
+
+  if(posts.length===0){
+
+    profile.innerHTML=
+      '<div class="empty">এখনও কোনো পোস্ট নেই 📷</div>';
 
     return;
 
   }
 
 
-  alert(
-    '🚀 ছবি পোস্ট করার জন্য প্রস্তুত। Backend যুক্ত করার পর এটি অনলাইনে পোস্ট হবে।'
-  );
+  posts.forEach(post=>{
+
+    const card =
+      document.createElement('section');
+
+    card.className='card';
+
+
+    card.innerHTML=`
+
+      <img class="cardImage" src="${post.image}">
+
+      <div class="fade"></div>
+
+      <div class="info">
+
+        <div class="user">
+          @rabbi_official ✓
+        </div>
+
+        <div class="postCaption">
+          ${escapeHTML(post.caption)}
+        </div>
+
+        <div class="music">
+          ♫ Original sound — ছায়াছবি
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <div class="avatar">R</div>
+
+        <div class="action likePost" data-id="${post.id}">
+
+          <div class="ico">
+            ${post.liked ? '♥' : '♡'}
+          </div>
+
+          <span>
+            ${post.likes}
+          </span>
+
+        </div>
+
+        <div class="action">
+
+          <div class="ico">↗</div>
+
+          <span>শেয়ার</span>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+
+    const tile =
+      document.createElement('div');
+
+    tile.className='tile';
+
+    tile.style.backgroundImage=
+      `url("${post.image}")`;
+
+    tile.style.backgroundSize='cover';
+
+    tile.style.backgroundPosition='center';
+
+    profile.appendChild(tile);
+
+  });
+
+
+  document
+  .querySelectorAll('.likePost')
+  .forEach(button=>{
+
+    button.onclick=()=>{
+
+      const id=
+        Number(button.dataset.id);
+
+      togglePostLike(id);
+
+    };
+
+  });
 
 }
+
+
+/* LIKE POST */
+
+function togglePostLike(id){
+
+  const posts =
+    JSON.parse(
+      localStorage.getItem('chhayachobi_posts') || '[]'
+    );
+
+
+  const post =
+    posts.find(x=>x.id===id);
+
+
+  if(!post) return;
+
+
+  if(post.liked){
+
+    post.likes=Math.max(0,post.likes-1);
+    post.liked=false;
+
+  }else{
+
+    post.likes++;
+    post.liked=true;
+
+  }
+
+
+  localStorage.setItem(
+    'chhayachobi_posts',
+    JSON.stringify(posts)
+  );
+
+
+  loadPosts();
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+  return String(text || '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* START */
+
+loadPosts();
 
 </script>
 
