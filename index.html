@@ -43,12 +43,12 @@ body{overflow:hidden}
   font-weight:900
 }
 
-.top .tabs{
+.tabs{
   font-size:13px;
   opacity:.8
 }
 
-.top .tabs b{
+.tabs b{
   color:#fff;
   border-bottom:2px solid #ff2638;
   padding-bottom:7px;
@@ -241,7 +241,7 @@ body{overflow:hidden}
   border-radius:14px;
   background:#101318;
   padding:14px 15px;
-  color:#aaa;
+  color:#fff;
   display:flex;
   align-items:center;
   margin:10px 0
@@ -251,13 +251,12 @@ body{overflow:hidden}
   width:100%;
   min-height:90px;
   resize:none;
-  color:#fff;
   outline:none;
   font-family:inherit
 }
 
 .btn{
-  height:50px;
+  min-height:50px;
   border:0;
   border-radius:14px;
   background:#ff2638;
@@ -269,7 +268,7 @@ body{overflow:hidden}
 }
 
 .uploadbox{
-  height:160px;
+  height:150px;
   border:1px dashed #66707d;
   border-radius:18px;
   display:grid;
@@ -281,6 +280,7 @@ body{overflow:hidden}
 
 .preview{
   display:none;
+  position:relative;
   margin:15px 0;
   border-radius:18px;
   overflow:hidden;
@@ -291,24 +291,37 @@ body{overflow:hidden}
 .preview img{
   width:100%;
   display:block;
-  max-height:400px;
+  max-height:420px;
   object-fit:contain
+}
+
+.previewText{
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:25px;
+  text-align:center;
+  font-weight:900;
+  text-shadow:0 3px 10px #000;
+  pointer-events:none;
+  white-space:pre-wrap;
+  word-break:break-word
 }
 
 .filter-title{
   font-weight:800;
-  margin-top:15px
+  margin-top:18px
 }
 
 .filters{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:7px;
-  margin:10px 0 15px
+  margin:10px 0 18px
 }
 
 .filters button{
-  height:42px;
+  height:44px;
   border:1px solid #ffffff22;
   border-radius:10px;
   background:#15191f;
@@ -316,8 +329,38 @@ body{overflow:hidden}
   font-size:11px
 }
 
-.filters button:active{
-  background:#ff2638
+.filters button.active{
+  background:#ff2638;
+  border-color:#ff2638
+}
+
+.control{
+  margin:14px 0
+}
+
+.controlTop{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:6px
+}
+
+.control input[type=range]{
+  width:100%
+}
+
+.colorRow{
+  display:flex;
+  gap:10px;
+  align-items:center
+}
+
+.colorRow input{
+  width:55px;
+  height:45px;
+  border:0;
+  padding:0;
+  background:none
 }
 
 .profileHead{
@@ -369,14 +412,11 @@ body{overflow:hidden}
   font-size:13px
 }
 
-.brand{
-  text-align:center;
-  margin-top:50px
-}
-
-.brand .biglogo{
-  font-size:42px;
-  font-weight:900
+.smallNote{
+  color:#8e96a3;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:10px
 }
 </style>
 </head>
@@ -431,552 +471,4 @@ body{overflow:hidden}
   <div class="info">
     <div class="user">@sad_love</div>
     <div class="desc">
-      কিছু মানুষ গল্প হয়ে যায়, শেষ হয় না... 🖤<br>
-      #sad #love #bangla
-    </div>
-    <div class="music">♫ নীরবতার গান</div>
-  </div>
-
-  <div class="actions">
-    <div class="avatar">S</div>
-    <div class="action like">
-      <div class="ico">♡</div>
-      <span>18.7K</span>
-    </div>
-    <div class="action">
-      <div class="ico">◌</div>
-      <span>291</span>
-    </div>
-    <div class="action">
-      <div class="ico">↗</div>
-      <span>845</span>
-    </div>
-  </div>
-</section>
-
-<section class="card">
-  <div class="scene"><span>🌧️</span></div>
-  <div class="fade"></div>
-
-  <div class="info">
-    <div class="user">@nature_vibes</div>
-    <div class="desc">
-      বৃষ্টির শব্দে শহরটা আজ একটু সিনেমার মতো... ☔<br>
-      #nature #rain #cinematic
-    </div>
-    <div class="music">♫ Rain ambience</div>
-  </div>
-
-  <div class="actions">
-    <div class="avatar">N</div>
-    <div class="action like">
-      <div class="ico">♡</div>
-      <span>31.2K</span>
-    </div>
-    <div class="action">
-      <div class="ico">◌</div>
-      <span>517</span>
-    </div>
-    <div class="action">
-      <div class="ico">↗</div>
-      <span>2.1K</span>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<nav class="nav">
-
-<button class="active" onclick="home()">
-<b>⌂</b>হোম
-</button>
-
-<button onclick="openPanel('search')">
-<b>⌕</b>আবিষ্কার
-</button>
-
-<button class="plus" onclick="openPanel('upload')">
-+
-</button>
-
-<button onclick="openPanel('notify')">
-<b>♡</b>ইনবক্স
-</button>
-
-<button onclick="openPanel('profile')">
-<b>◯</b>প্রোফাইল
-</button>
-
-</nav>
-
-
-<!-- PHOTO UPLOAD -->
-
-<section id="upload" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="title">ছবি এডিট করুন</div>
-
-<label class="uploadbox" for="imagePicker">
-
-<div>
-  <div style="font-size:45px">📷</div>
-  <b>ছবি নির্বাচন করুন</b>
-  <div class="muted">JPG / PNG / WEBP</div>
-</div>
-
-</label>
-
-<input
-id="imagePicker"
-type="file"
-accept="image/*"
-hidden
->
-
-<div id="imagePreview" class="preview">
-
-<img id="previewImg">
-
-</div>
-
-<div id="pickedImage" class="field">
-কোনো ছবি নির্বাচন করা হয়নি
-</div>
-
-
-<div class="filter-title">
-🎨 ফিল্টার
-</div>
-
-<div class="filters">
-
-<button onclick="applyFilter('normal')">
-Normal
-</button>
-
-<button onclick="applyFilter('cinematic')">
-Cinematic
-</button>
-
-<button onclick="applyFilter('dark')">
-Dark
-</button>
-
-<button onclick="applyFilter('vintage')">
-Vintage
-</button>
-
-</div>
-
-
-<textarea
-id="captionInput"
-class="field textarea"
-placeholder="ছবির জন্য ক্যাপশন লিখুন..."
-></textarea>
-
-
-<input
-id="textInput"
-class="field"
-placeholder="ছবির ওপর লেখা লিখুন..."
->
-
-
-<button class="btn" onclick="addText()">
-✍️ ছবিতে লেখা যোগ করুন
-</button>
-
-
-<button class="btn" onclick="downloadImage()">
-💾 ছবি Save করুন
-</button>
-
-
-<button class="btn" onclick="postImage()">
-🚀 ছবি পোস্ট করুন
-</button>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section id="profile" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="profileHead">
-
-<div class="avatar big">R</div>
-
-<h2>Rabbi</h2>
-
-<div class="muted">@rabbi_official</div>
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<b>128</b>
-<span class="muted">ফলোইং</span>
-</div>
-
-<div class="stat">
-<b>36</b>
-<span class="muted">ফলোয়ার</span>
-</div>
-
-<div class="stat">
-<b>4.2K</b>
-<span class="muted">লাইক</span>
-</div>
-
-</div>
-
-<button class="btn">
-প্রোফাইল এডিট
-</button>
-
-<div class="title" style="font-size:18px">
-আমার ভিডিও
-</div>
-
-<div class="grid">
-
-<div class="tile">🎬</div>
-<div class="tile">🌧️</div>
-<div class="tile">🌅</div>
-<div class="tile">🖤</div>
-<div class="tile">🎥</div>
-<div class="tile">✨</div>
-
-</div>
-
-</section>
-
-
-<!-- SEARCH -->
-
-<section id="search" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="title">আবিষ্কার</div>
-
-<div class="field">
-⌕&nbsp;&nbsp; ভিডিও, ইউজার বা #হ্যাশট্যাগ খুঁজুন
-</div>
-
-<div class="row">
-<span>#cinematic</span>
-<b>8.7M</b>
-</div>
-
-<div class="row">
-<span>#bangladesh</span>
-<b>4.3M</b>
-</div>
-
-<div class="row">
-<span>#love</span>
-<b>12.4M</b>
-</div>
-
-<div class="row">
-<span>#nature</span>
-<b>9.1M</b>
-</div>
-
-</section>
-
-
-<!-- NOTIFICATION -->
-
-<section id="notify" class="panel">
-
-<button class="back" onclick="closePanel()">‹</button>
-
-<div class="title">
-নোটিফিকেশন
-</div>
-
-<div class="row">
-<span>❤️ @sadia_love আপনার ভিডিওতে লাইক দিয়েছে</span>
-<span class="muted">2m</span>
-</div>
-
-<div class="row">
-<span>👤 @user123 আপনাকে ফলো করেছে</span>
-<span class="muted">5m</span>
-</div>
-
-<div class="row">
-<span>💬 @ari_007 মন্তব্য করেছে</span>
-<span class="muted">12m</span>
-</div>
-
-</section>
-
-
-</div>
-
-
-<script>
-
-function openPanel(id){
-
-  document
-  .getElementById(id)
-  .classList
-  .add('show');
-
-}
-
-function closePanel(){
-
-  document
-  .querySelectorAll('.panel')
-  .forEach(x => x.classList.remove('show'));
-
-}
-
-function home(){
-
-  closePanel();
-
-  document
-  .getElementById('feed')
-  .scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
-
-}
-
-
-/* LIKE */
-
-document
-.querySelectorAll('.like')
-.forEach(x => {
-
-  x.onclick = () => {
-
-    x.classList.toggle('liked');
-
-    x.querySelector('.ico').textContent =
-      x.classList.contains('liked')
-      ? '♥'
-      : '♡';
-
-  };
-
-});
-
-
-/* IMAGE PICKER */
-
-const imagePicker =
-document.getElementById('imagePicker');
-
-imagePicker.onchange = () => {
-
-  const file = imagePicker.files[0];
-
-  if(!file) return;
-
-  document
-  .getElementById('pickedImage')
-  .textContent = file.name;
-
-  const preview =
-  document.getElementById('imagePreview');
-
-  const img =
-  document.getElementById('previewImg');
-
-  img.src =
-  URL.createObjectURL(file);
-
-  preview.style.display =
-  'block';
-
-};
-
-
-/* FILTER */
-
-function applyFilter(type){
-
-  const img =
-  document.getElementById('previewImg');
-
-  if(!img.src) return;
-
-  if(type === 'normal'){
-    img.style.filter = 'none';
-  }
-
-  if(type === 'cinematic'){
-    img.style.filter =
-    'contrast(1.18) saturate(.9) brightness(.88)';
-  }
-
-  if(type === 'dark'){
-    img.style.filter =
-    'brightness(.62) contrast(1.25) saturate(.85)';
-  }
-
-  if(type === 'vintage'){
-    img.style.filter =
-    'sepia(.35) contrast(1.08) saturate(.82)';
-  }
-
-}
-
-
-/* ADD TEXT */
-
-function addText(){
-
-  const text =
-  document.getElementById('textInput').value;
-
-  if(!imagePicker.files.length){
-
-    alert('আগে একটি ছবি নির্বাচন করুন');
-
-    return;
-
-  }
-
-  if(!text.trim()){
-
-    alert('আগে ছবির ওপর লেখাটি লিখুন');
-
-    return;
-
-  }
-
-  alert(
-    'লেখাটি প্রস্তুত করা হয়েছে। Save করলে ছবির সঙ্গে লেখা যুক্ত হবে।'
-  );
-
-}
-
-
-/* DOWNLOAD */
-
-function downloadImage(){
-
-  if(!imagePicker.files.length){
-
-    alert('আগে একটি ছবি নির্বাচন করুন');
-
-    return;
-
-  }
-
-  const img =
-  document.getElementById('previewImg');
-
-  const canvas =
-  document.createElement('canvas');
-
-  const ctx =
-  canvas.getContext('2d');
-
-  const image =
-  new Image();
-
-  image.onload = function(){
-
-    canvas.width =
-    image.naturalWidth;
-
-    canvas.height =
-    image.naturalHeight;
-
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-    const text =
-    document.getElementById('textInput').value;
-
-    if(text.trim()){
-
-      ctx.fillStyle =
-      'white';
-
-      ctx.font =
-      Math.max(30,canvas.width/25)
-      + 'px sans-serif';
-
-      ctx.textAlign =
-      'center';
-
-      ctx.shadowColor =
-      'black';
-
-      ctx.shadowBlur =
-      8;
-
-      ctx.fillText(
-        text,
-        canvas.width/2,
-        canvas.height-80
-      );
-
-    }
-
-    const link =
-    document.createElement('a');
-
-    link.download =
-    'chhayachobi.jpg';
-
-    link.href =
-    canvas.toDataURL('image/jpeg',.95);
-
-    link.click();
-
-  };
-
-  image.src =
-  img.src;
-
-}
-
-
-/* POST */
-
-function postImage(){
-
-  if(!imagePicker.files.length){
-
-    alert('আগে একটি ছবি নির্বাচন করুন');
-
-    return;
-
-  }
-
-  alert(
-    'ছবিটি প্রস্তুত। Backend যুক্ত করলে এটি অনলাইনে পোস্ট করা যাবে।'
-  );
-
-}
-
-</script>
-
-</body>
-</html>
+      কিছু
