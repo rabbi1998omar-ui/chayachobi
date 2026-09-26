@@ -471,4 +471,850 @@ body{overflow:hidden}
   <div class="info">
     <div class="user">@sad_love</div>
     <div class="desc">
-      কিছু
+      কিছু মানুষ গল্প হয়ে যায়, শেষ হয় না... 🖤<br>
+      #sad #love #bangla
+    </div>
+    <div class="music">♫ নীরবতার গান</div>
+  </div>
+
+  <div class="actions">
+    <div class="avatar">S</div>
+    <div class="action like">
+      <div class="ico">♡</div>
+      <span>18.7K</span>
+    </div>
+    <div class="action">
+      <div class="ico">◌</div>
+      <span>291</span>
+    </div>
+    <div class="action">
+      <div class="ico">↗</div>
+      <span>845</span>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="scene"><span>🌧️</span></div>
+  <div class="fade"></div>
+
+  <div class="info">
+    <div class="user">@nature_vibes</div>
+    <div class="desc">
+      বৃষ্টির শব্দে শহরটা আজ একটু সিনেমার মতো... ☔<br>
+      #nature #rain #cinematic
+    </div>
+    <div class="music">♫ Rain ambience</div>
+  </div>
+
+  <div class="actions">
+    <div class="avatar">N</div>
+    <div class="action like">
+      <div class="ico">♡</div>
+      <span>31.2K</span>
+    </div>
+    <div class="action">
+      <div class="ico">◌</div>
+      <span>517</span>
+    </div>
+    <div class="action">
+      <div class="ico">↗</div>
+      <span>2.1K</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nav">
+
+<button class="active" onclick="home()">
+<b>⌂</b>হোম
+</button>
+
+<button onclick="openPanel('search')">
+<b>⌕</b>আবিষ্কার
+</button>
+
+<button class="plus" onclick="openPanel('upload')">
++
+</button>
+
+<button onclick="openPanel('notify')">
+<b>♡</b>ইনবক্স
+</button>
+
+<button onclick="openPanel('profile')">
+<b>◯</b>প্রোফাইল
+</button>
+
+</nav>
+
+
+<!-- PHOTO EDITOR -->
+
+<section id="upload" class="panel">
+
+<button class="back" onclick="closePanel()">‹</button>
+
+<div class="title">ছবি এডিট করুন</div>
+
+<label class="uploadbox" for="imagePicker">
+
+<div>
+  <div style="font-size:45px">📷</div>
+  <b>ছবি নির্বাচন করুন</b>
+  <div class="muted">JPG / PNG / WEBP</div>
+</div>
+
+</label>
+
+<input id="imagePicker" type="file" accept="image/*" hidden>
+
+<div id="imagePreview" class="preview">
+
+  <img id="previewImg">
+
+  <div id="previewText" class="previewText"></div>
+
+</div>
+
+<div id="pickedImage" class="field">
+কোনো ছবি নির্বাচন করা হয়নি
+</div>
+
+
+<div class="filter-title">🎨 ফিল্টার</div>
+
+<div class="filters">
+
+<button onclick="applyFilter('normal')" id="filterNormal" class="active">
+Normal
+</button>
+
+<button onclick="applyFilter('cinematic')" id="filterCinematic">
+Cinematic
+</button>
+
+<button onclick="applyFilter('dark')" id="filterDark">
+Dark
+</button>
+
+<button onclick="applyFilter('vintage')" id="filterVintage">
+Vintage
+</button>
+
+</div>
+
+
+<div class="filter-title">☀️ আলো ও রং</div>
+
+<div class="control">
+
+<div class="controlTop">
+<span>Brightness</span>
+<span id="brightnessValue">100%</span>
+</div>
+
+<input
+id="brightness"
+type="range"
+min="40"
+max="160"
+value="100"
+oninput="updateAdjustments()"
+>
+
+</div>
+
+
+<div class="control">
+
+<div class="controlTop">
+<span>Contrast</span>
+<span id="contrastValue">100%</span>
+</div>
+
+<input
+id="contrast"
+type="range"
+min="50"
+max="170"
+value="100"
+oninput="updateAdjustments()"
+>
+
+</div>
+
+
+<div class="control">
+
+<div class="controlTop">
+<span>Saturation</span>
+<span id="saturationValue">100%</span>
+</div>
+
+<input
+id="saturation"
+type="range"
+min="0"
+max="180"
+value="100"
+oninput="updateAdjustments()"
+>
+
+</div>
+
+
+<div class="filter-title">✍️ ছবির ওপর লেখা</div>
+
+<textarea
+id="textInput"
+class="field textarea"
+placeholder="এখানে ছবির ওপর লেখা লিখুন..."
+oninput="updateTextPreview()"
+></textarea>
+
+
+<div class="colorRow">
+
+<div style="flex:1">
+
+<div class="controlTop">
+<span>লেখার সাইজ</span>
+<span id="textSizeValue">24px</span>
+</div>
+
+<input
+id="textSize"
+type="range"
+min="12"
+max="60"
+value="24"
+oninput="updateTextPreview()"
+style="width:100%"
+>
+
+</div>
+
+<input
+id="textColor"
+type="color"
+value="#ffffff"
+oninput="updateTextPreview()"
+>
+
+</div>
+
+
+<button class="btn" onclick="downloadImage()">
+💾 এডিট করা ছবি Save করুন
+</button>
+
+<button class="btn" onclick="postImage()">
+🚀 ছবি পোস্ট করুন
+</button>
+
+<div class="smallNote">
+ছবি আপনার ফোনেই এডিট হবে। Save করলে ফিল্টার, আলো, রং ও লেখা যুক্ত করা ছবি ডাউনলোড হবে।
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="panel">
+
+<button class="back" onclick="closePanel()">‹</button>
+
+<div class="profileHead">
+
+<div class="avatar big">R</div>
+
+<h2>Rabbi</h2>
+
+<div class="muted">@rabbi_official</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<b>128</b>
+<span class="muted">ফলোইং</span>
+</div>
+
+<div class="stat">
+<b>36</b>
+<span class="muted">ফলোয়ার</span>
+</div>
+
+<div class="stat">
+<b>4.2K</b>
+<span class="muted">লাইক</span>
+</div>
+
+</div>
+
+<button class="btn">
+প্রোফাইল এডিট
+</button>
+
+<div class="title" style="font-size:18px">
+আমার পোস্ট
+</div>
+
+<div class="grid">
+<div class="tile">🎬</div>
+<div class="tile">🌧️</div>
+<div class="tile">🌅</div>
+<div class="tile">🖤</div>
+<div class="tile">🎥</div>
+<div class="tile">✨</div>
+</div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section id="search" class="panel">
+
+<button class="back" onclick="closePanel()">‹</button>
+
+<div class="title">আবিষ্কার</div>
+
+<div class="field">
+⌕&nbsp;&nbsp; ভিডিও, ইউজার বা #হ্যাশট্যাগ খুঁজুন
+</div>
+
+<div class="row">
+<span>#cinematic</span>
+<b>8.7M</b>
+</div>
+
+<div class="row">
+<span>#bangladesh</span>
+<b>4.3M</b>
+</div>
+
+<div class="row">
+<span>#love</span>
+<b>12.4M</b>
+</div>
+
+<div class="row">
+<span>#nature</span>
+<b>9.1M</b>
+</div>
+
+</section>
+
+
+<!-- NOTIFICATION -->
+
+<section id="notify" class="panel">
+
+<button class="back" onclick="closePanel()">‹</button>
+
+<div class="title">
+নোটিফিকেশন
+</div>
+
+<div class="row">
+<span>❤️ @sadia_love আপনার পোস্টে লাইক দিয়েছে</span>
+<span class="muted">2m</span>
+</div>
+
+<div class="row">
+<span>👤 @user123 আপনাকে ফলো করেছে</span>
+<span class="muted">5m</span>
+</div>
+
+<div class="row">
+<span>💬 @ari_007 মন্তব্য করেছে</span>
+<span class="muted">12m</span>
+</div>
+
+</section>
+
+</div>
+
+
+<script>
+
+let currentFilter = 'normal';
+
+
+function openPanel(id){
+
+  document.getElementById(id).classList.add('show');
+
+}
+
+
+function closePanel(){
+
+  document
+  .querySelectorAll('.panel')
+  .forEach(x => x.classList.remove('show'));
+
+}
+
+
+function home(){
+
+  closePanel();
+
+  document
+  .getElementById('feed')
+  .scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+}
+
+
+/* LIKE */
+
+document
+.querySelectorAll('.like')
+.forEach(x => {
+
+  x.onclick = () => {
+
+    x.classList.toggle('liked');
+
+    x.querySelector('.ico').textContent =
+      x.classList.contains('liked')
+      ? '♥'
+      : '♡';
+
+  };
+
+});
+
+
+/* IMAGE PICKER */
+
+const imagePicker =
+document.getElementById('imagePicker');
+
+imagePicker.onchange = () => {
+
+  const file = imagePicker.files[0];
+
+  if(!file) return;
+
+  document
+  .getElementById('pickedImage')
+  .textContent = file.name;
+
+  const preview =
+  document.getElementById('imagePreview');
+
+  const img =
+  document.getElementById('previewImg');
+
+  img.src =
+  URL.createObjectURL(file);
+
+  preview.style.display =
+  'block';
+
+  resetEditor();
+
+};
+
+
+function resetEditor(){
+
+  document.getElementById('brightness').value = 100;
+  document.getElementById('contrast').value = 100;
+  document.getElementById('saturation').value = 100;
+
+  document.getElementById('brightnessValue').textContent = '100%';
+  document.getElementById('contrastValue').textContent = '100%';
+  document.getElementById('saturationValue').textContent = '100%';
+
+  document.getElementById('textInput').value = '';
+
+  document.getElementById('previewText').textContent = '';
+
+  currentFilter = 'normal';
+
+  updateFilterButtons();
+  updateAdjustments();
+
+}
+
+
+/* FILTER */
+
+function applyFilter(type){
+
+  currentFilter = type;
+
+  updateFilterButtons();
+
+  updateAdjustments();
+
+}
+
+
+function updateFilterButtons(){
+
+  document
+  .querySelectorAll('.filters button')
+  .forEach(button => button.classList.remove('active'));
+
+  const id =
+    'filter' +
+    currentFilter.charAt(0).toUpperCase() +
+    currentFilter.slice(1);
+
+  const button =
+  document.getElementById(id);
+
+  if(button){
+    button.classList.add('active');
+  }
+
+}
+
+
+/* ADJUSTMENTS */
+
+function updateAdjustments(){
+
+  const img =
+  document.getElementById('previewImg');
+
+  if(!img.src) return;
+
+  const brightness =
+  document.getElementById('brightness').value;
+
+  const contrast =
+  document.getElementById('contrast').value;
+
+  const saturation =
+  document.getElementById('saturation').value;
+
+
+  document.getElementById('brightnessValue').textContent =
+    brightness + '%';
+
+  document.getElementById('contrastValue').textContent =
+    contrast + '%';
+
+  document.getElementById('saturationValue').textContent =
+    saturation + '%';
+
+
+  let b = Number(brightness);
+  let c = Number(contrast);
+  let s = Number(saturation);
+
+
+  if(currentFilter === 'cinematic'){
+
+    b *= .90;
+    c *= 1.15;
+    s *= .88;
+
+  }
+
+
+  if(currentFilter === 'dark'){
+
+    b *= .65;
+    c *= 1.25;
+    s *= .85;
+
+  }
+
+
+  if(currentFilter === 'vintage'){
+
+    b *= 1.02;
+    c *= 1.08;
+    s *= .78;
+
+  }
+
+
+  let sepia = 0;
+
+  if(currentFilter === 'vintage'){
+    sepia = .30;
+  }
+
+
+  img.style.filter =
+    `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
+
+}
+
+
+/* TEXT PREVIEW */
+
+function updateTextPreview(){
+
+  const text =
+  document.getElementById('textInput').value;
+
+  const size =
+  document.getElementById('textSize').value;
+
+  const color =
+  document.getElementById('textColor').value;
+
+  const previewText =
+  document.getElementById('previewText');
+
+
+  previewText.textContent =
+    text;
+
+  previewText.style.fontSize =
+    size + 'px';
+
+  previewText.style.color =
+    color;
+
+  document.getElementById('textSizeValue').textContent =
+    size + 'px';
+
+}
+
+
+/* DOWNLOAD */
+
+function downloadImage(){
+
+  if(!imagePicker.files.length){
+
+    alert('আগে একটি ছবি নির্বাচন করুন');
+
+    return;
+
+  }
+
+
+  const img =
+  document.getElementById('previewImg');
+
+  const canvas =
+  document.createElement('canvas');
+
+  const ctx =
+  canvas.getContext('2d');
+
+  const image =
+  new Image();
+
+
+  image.onload = function(){
+
+    canvas.width =
+    image.naturalWidth;
+
+    canvas.height =
+    image.naturalHeight;
+
+
+    let b =
+      Number(document.getElementById('brightness').value);
+
+    let c =
+      Number(document.getElementById('contrast').value);
+
+    let s =
+      Number(document.getElementById('saturation').value);
+
+
+    if(currentFilter === 'cinematic'){
+      b *= .90;
+      c *= 1.15;
+      s *= .88;
+    }
+
+    if(currentFilter === 'dark'){
+      b *= .65;
+      c *= 1.25;
+      s *= .85;
+    }
+
+    if(currentFilter === 'vintage'){
+      b *= 1.02;
+      c *= 1.08;
+      s *= .78;
+    }
+
+
+    let sepia =
+      currentFilter === 'vintage'
+      ? .30
+      : 0;
+
+
+    ctx.filter =
+      `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
+
+
+    ctx.drawImage(
+      image,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+    ctx.filter = 'none';
+
+
+    const text =
+    document.getElementById('textInput').value.trim();
+
+
+    if(text){
+
+      const size =
+      Number(document.getElementById('textSize').value);
+
+      const color =
+      document.getElementById('textColor').value;
+
+
+      ctx.fillStyle =
+      color;
+
+      ctx.font =
+      `900 ${Math.max(size,20)}px sans-serif`;
+
+      ctx.textAlign =
+      'center';
+
+      ctx.textBaseline =
+      'bottom';
+
+      ctx.shadowColor =
+      'rgba(0,0,0,.85)';
+
+      ctx.shadowBlur =
+      10;
+
+
+      const maxWidth =
+      canvas.width * .88;
+
+
+      const words =
+      text.split(' ');
+
+      let lines = [];
+      let line = '';
+
+
+      words.forEach(word => {
+
+        const test =
+        line
+        ? line + ' ' + word
+        : word;
+
+        if(ctx.measureText(test).width > maxWidth){
+
+          lines.push(line);
+
+          line = word;
+
+        }else{
+
+          line = test;
+
+        }
+
+      });
+
+
+      if(line){
+        lines.push(line);
+      }
+
+
+      const lineHeight =
+      size * 1.25;
+
+      const startY =
+      canvas.height -
+      55 -
+      ((lines.length-1) * lineHeight);
+
+
+      lines.forEach((lineText,index) => {
+
+        ctx.fillText(
+          lineText,
+          canvas.width/2,
+          startY + index*lineHeight
+        );
+
+      });
+
+    }
+
+
+    const link =
+    document.createElement('a');
+
+    link.download =
+    'chhayachobi-edited.jpg';
+
+    link.href =
+    canvas.toDataURL(
+      'image/jpeg',
+      .95
+    );
+
+    link.click();
+
+
+    alert('✅ এডিট করা ছবি Save হয়েছে');
+
+  };
+
+
+  image.src =
+  img.src;
+
+}
+
+
+/* POST */
+
+function postImage(){
+
+  if(!imagePicker.files.length){
+
+    alert('আগে একটি ছবি নির্বাচন করুন');
+
+    return;
+
+  }
+
+
+  alert(
+    '🚀 ছবি পোস্ট করার জন্য প্রস্তুত। Backend যুক্ত করার পর এটি অনলাইনে পোস্ট হবে।'
+  );
+
+}
+
+</script>
+
+</body>
+</html>
