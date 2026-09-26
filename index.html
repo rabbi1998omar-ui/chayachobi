@@ -67,8 +67,7 @@ body{overflow:hidden}
   scroll-snap-align:start;
   display:flex;
   align-items:flex-end;
-  background-size:cover;
-  background-position:center;
+  background:#111;
   overflow:hidden
 }
 
@@ -110,6 +109,12 @@ body{overflow:hidden}
   opacity:.8
 }
 
+.postCaption{
+  margin-top:8px;
+  font-size:14px;
+  line-height:1.5
+}
+
 .actions{
   position:absolute;
   right:12px;
@@ -122,9 +127,9 @@ body{overflow:hidden}
 }
 
 .action{
-  width:52px;
+  width:55px;
   text-align:center;
-  font-size:11px
+  font-size:10px
 }
 
 .ico{
@@ -378,10 +383,12 @@ body{overflow:hidden}
 
 .tile{
   height:150px;
-  background:linear-gradient(145deg,#26313b,#0c0f13);
+  background:#171b21;
   display:grid;
   place-items:center;
-  font-size:34px
+  font-size:34px;
+  background-size:cover;
+  background-position:center
 }
 
 .row{
@@ -396,16 +403,116 @@ body{overflow:hidden}
   font-size:13px
 }
 
-.postCaption{
-  margin-top:8px;
-  font-size:14px;
-  line-height:1.5
-}
-
 .empty{
   text-align:center;
   padding:70px 20px;
   color:#89909b
+}
+
+/* COMMENT BOX */
+
+.commentBox{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:50;
+  background:#0b0d11;
+  border-top:1px solid #ffffff18;
+  padding:12px;
+  display:none
+}
+
+.commentBox.show{
+  display:block
+}
+
+.commentTitle{
+  font-weight:800;
+  margin-bottom:10px
+}
+
+.commentInputRow{
+  display:flex;
+  gap:8px
+}
+
+.commentInput{
+  flex:1;
+  height:45px;
+  border:1px solid #ffffff20;
+  border-radius:12px;
+  background:#171a20;
+  color:#fff;
+  padding:0 12px;
+  outline:none
+}
+
+.commentSend{
+  width:70px;
+  border:0;
+  border-radius:12px;
+  background:#ff2638;
+  color:#fff;
+  font-weight:800
+}
+
+.commentsList{
+  max-height:180px;
+  overflow:auto;
+  margin-bottom:10px
+}
+
+.commentItem{
+  padding:8px 0;
+  border-bottom:1px solid #ffffff0d;
+  font-size:13px
+}
+
+.commentUser{
+  font-weight:800
+}
+
+/* SHARE */
+
+.shareBox{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:60;
+  background:#101318;
+  border-radius:20px 20px 0 0;
+  padding:20px;
+  display:none;
+  box-shadow:0 -10px 40px #000
+}
+
+.shareBox.show{
+  display:block
+}
+
+.shareButtons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:15px
+}
+
+.shareButton{
+  min-height:65px;
+  border:1px solid #ffffff15;
+  border-radius:14px;
+  background:#171a20;
+  color:#fff
+}
+
+/* DELETE */
+
+.deleteBtn{
+  background:#161a20!important;
+  color:#ff5a68!important;
+  border:1px solid #ff263844!important
 }
 </style>
 </head>
@@ -416,84 +523,124 @@ body{overflow:hidden}
 
 <header class="top">
   <div class="logo">ছায়াছবি•</div>
+
   <div class="tabs">
     <b>ফলোয়িং</b> আপনার জন্য
   </div>
 </header>
 
+
 <main class="feed" id="feed">
 
 <section class="card">
+
   <div style="position:absolute;inset:0;background:linear-gradient(145deg,#17202d,#07090d 60%,#321017)"></div>
 
   <div class="fade"></div>
 
   <div class="info">
+
     <div class="user">@rabbi_official ✓</div>
+
     <div class="desc">
       শহরের আলোয়ও কিছু গল্প অন্ধকারেই থেকে যায়... 🌙<br>
       #ছায়াছবি #cinematic #foryou
     </div>
-    <div class="music">♫ Original sound — ছায়াছবি</div>
+
+    <div class="music">
+      ♫ Original sound — ছায়াছবি
+    </div>
+
   </div>
+
 
   <div class="actions">
 
     <div class="avatar">R</div>
 
     <div class="action like">
+
       <div class="ico">♡</div>
+
       <span>24.5K</span>
+
     </div>
 
     <div class="action">
+
       <div class="ico">◌</div>
+
       <span>342</span>
+
     </div>
 
     <div class="action">
+
       <div class="ico">↗</div>
+
       <span>1.2K</span>
+
     </div>
 
   </div>
+
 </section>
 
+
 <section class="card">
+
   <div style="position:absolute;inset:0;background:linear-gradient(145deg,#303b46,#090b0f 65%,#1c1112)"></div>
 
   <div class="fade"></div>
 
   <div class="info">
+
     <div class="user">@sad_love</div>
+
     <div class="desc">
       কিছু মানুষ গল্প হয়ে যায়, শেষ হয় না... 🖤<br>
       #sad #love #bangla
     </div>
-    <div class="music">♫ নীরবতার গান</div>
+
+    <div class="music">
+      ♫ নীরবতার গান
+    </div>
+
   </div>
+
 
   <div class="actions">
 
     <div class="avatar">S</div>
 
     <div class="action like">
+
       <div class="ico">♡</div>
+
       <span>18.7K</span>
+
     </div>
 
     <div class="action">
+
       <div class="ico">◌</div>
+
       <span>291</span>
+
     </div>
 
     <div class="action">
+
       <div class="ico">↗</div>
+
       <span>845</span>
+
     </div>
 
   </div>
+
 </section>
+
 
 <div id="userPosts"></div>
 
@@ -531,19 +678,34 @@ body{overflow:hidden}
 
 <button class="back" onclick="closePanel()">‹</button>
 
-<div class="title">ছবি এডিট করুন</div>
+<div class="title">
+ছবি এডিট করুন
+</div>
+
 
 <label class="uploadbox" for="imagePicker">
 
 <div>
-  <div style="font-size:45px">📷</div>
-  <b>ছবি নির্বাচন করুন</b>
-  <div class="muted">JPG / PNG / WEBP</div>
+
+<div style="font-size:45px">📷</div>
+
+<b>ছবি নির্বাচন করুন</b>
+
+<div class="muted">
+JPG / PNG / WEBP
+</div>
+
 </div>
 
 </label>
 
-<input id="imagePicker" type="file" accept="image/*" hidden>
+
+<input
+id="imagePicker"
+type="file"
+accept="image/*"
+hidden
+>
 
 
 <div id="imagePreview" class="preview">
@@ -560,7 +722,10 @@ body{overflow:hidden}
 </div>
 
 
-<div class="filter-title">🎨 ফিল্টার</div>
+<div class="filter-title">
+🎨 ফিল্টার
+</div>
+
 
 <div class="filters">
 
@@ -583,7 +748,10 @@ Vintage
 </div>
 
 
-<div class="filter-title">☀️ আলো ও রং</div>
+<div class="filter-title">
+☀️ আলো ও রং
+</div>
+
 
 <div class="control">
 
@@ -592,7 +760,14 @@ Vintage
 <span id="brightnessValue">100%</span>
 </div>
 
-<input id="brightness" type="range" min="40" max="160" value="100" oninput="updateAdjustments()">
+<input
+id="brightness"
+type="range"
+min="40"
+max="160"
+value="100"
+oninput="updateAdjustments()"
+>
 
 </div>
 
@@ -604,7 +779,14 @@ Vintage
 <span id="contrastValue">100%</span>
 </div>
 
-<input id="contrast" type="range" min="50" max="170" value="100" oninput="updateAdjustments()">
+<input
+id="contrast"
+type="range"
+min="50"
+max="170"
+value="100"
+oninput="updateAdjustments()"
+>
 
 </div>
 
@@ -616,12 +798,22 @@ Vintage
 <span id="saturationValue">100%</span>
 </div>
 
-<input id="saturation" type="range" min="0" max="180" value="100" oninput="updateAdjustments()">
+<input
+id="saturation"
+type="range"
+min="0"
+max="180"
+value="100"
+oninput="updateAdjustments()"
+>
 
 </div>
 
 
-<div class="filter-title">✍️ ছবির ওপর লেখা</div>
+<div class="filter-title">
+✍️ ছবির ওপর লেখা
+</div>
+
 
 <textarea
 id="textInput"
@@ -636,9 +828,15 @@ oninput="updateTextPreview()"
 <div style="flex:1">
 
 <div class="controlTop">
+
 <span>লেখার সাইজ</span>
-<span id="textSizeValue">24px</span>
+
+<span id="textSizeValue">
+24px
+</span>
+
 </div>
+
 
 <input
 id="textSize"
@@ -651,6 +849,7 @@ style="width:100%"
 >
 
 </div>
+
 
 <input
 id="textColor"
@@ -689,38 +888,69 @@ placeholder="পোস্টের ক্যাপশন লিখুন..."
 
 <div class="profileHead">
 
-<div class="avatar big">R</div>
+<div class="avatar big">
+R
+</div>
 
 <h2>Rabbi</h2>
 
-<div class="muted">@rabbi_official</div>
+<div class="muted">
+@rabbi_official
+</div>
 
 </div>
+
 
 <div class="stats">
 
 <div class="stat">
-<b id="postCount">0</b>
-<span class="muted">পোস্ট</span>
+
+<b id="postCount">
+0
+</b>
+
+<span class="muted">
+পোস্ট
+</span>
+
 </div>
+
 
 <div class="stat">
-<b>36</b>
-<span class="muted">ফলোয়ার</span>
+
+<b>
+36
+</b>
+
+<span class="muted">
+ফলোয়ার
+</span>
+
 </div>
+
 
 <div class="stat">
-<b>4.2K</b>
-<span class="muted">লাইক</span>
+
+<b id="totalLikes">
+0
+</b>
+
+<span class="muted">
+লাইক
+</span>
+
 </div>
 
 </div>
+
 
 <div class="title" style="font-size:18px">
 আমার পোস্ট
 </div>
 
-<div id="profilePosts" class="grid"></div>
+
+<div id="profilePosts" class="grid">
+</div>
 
 </section>
 
@@ -731,7 +961,9 @@ placeholder="পোস্টের ক্যাপশন লিখুন..."
 
 <button class="back" onclick="closePanel()">‹</button>
 
-<div class="title">আবিষ্কার</div>
+<div class="title">
+আবিষ্কার
+</div>
 
 <div class="field">
 ⌕&nbsp;&nbsp; ভিডিও, ইউজার বা #হ্যাশট্যাগ খুঁজুন
@@ -766,7 +998,9 @@ placeholder="পোস্টের ক্যাপশন লিখুন..."
 
 <button class="back" onclick="closePanel()">‹</button>
 
-<div class="title">নোটিফিকেশন</div>
+<div class="title">
+নোটিফিকেশন
+</div>
 
 <div class="row">
 <span>❤️ @sadia_love আপনার পোস্টে লাইক দিয়েছে</span>
@@ -785,103 +1019,202 @@ placeholder="পোস্টের ক্যাপশন লিখুন..."
 
 </section>
 
+
+<!-- COMMENT -->
+
+<div id="commentBox" class="commentBox">
+
+<div class="commentTitle">
+💬 মন্তব্য
+</div>
+
+<div id="commentsList" class="commentsList">
+</div>
+
+<div class="commentInputRow">
+
+<input
+id="commentInput"
+class="commentInput"
+placeholder="একটি মন্তব্য লিখুন..."
+>
+
+<button
+class="commentSend"
+onclick="sendComment()"
+>
+পাঠান
+</button>
+
+</div>
+
+<button
+class="btn"
+onclick="closeComments()"
+style="margin-top:10px"
+>
+বন্ধ করুন
+</button>
+
+</div>
+
+
+<!-- SHARE -->
+
+<div id="shareBox" class="shareBox">
+
+<div class="title" style="margin-top:0">
+↗️ পোস্ট শেয়ার করুন
+</div>
+
+<div class="shareButtons">
+
+<button class="shareButton" onclick="copyPostLink()">
+🔗<br>লিংক কপি
+</button>
+
+<button class="shareButton" onclick="nativeShare()">
+📤<br>শেয়ার
+</button>
+
+<button class="shareButton" onclick="closeShare()">
+✕<br>বন্ধ
+</button>
+
+</div>
+
+</div>
+
 </div>
 
 
 <script>
 
-let currentFilter = 'normal';
+let currentFilter='normal';
 
+let activeCommentPost=null;
+
+let activeSharePost=null;
+
+
+/* PANEL */
 
 function openPanel(id){
-  document.getElementById(id).classList.add('show');
+
+document
+.getElementById(id)
+.classList
+.add('show');
+
 }
 
 
 function closePanel(){
-  document
-  .querySelectorAll('.panel')
-  .forEach(x => x.classList.remove('show'));
+
+document
+.querySelectorAll('.panel')
+.forEach(x =>
+x.classList.remove('show')
+);
+
 }
 
 
 function home(){
 
-  closePanel();
+closePanel();
 
-  document
-  .getElementById('feed')
-  .scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
+closeComments();
+
+closeShare();
+
+document
+.getElementById('feed')
+.scrollTo({
+top:0,
+behavior:'smooth'
+});
 
 }
 
 
-/* LIKE */
+/* BASIC LIKE */
 
 document
 .querySelectorAll('.like')
-.forEach(x => {
+.forEach(x=>{
 
-  x.onclick = () => {
+x.onclick=()=>{
 
-    x.classList.toggle('liked');
+x.classList.toggle('liked');
 
-    x.querySelector('.ico').textContent =
-      x.classList.contains('liked')
-      ? '♥'
-      : '♡';
+x.querySelector('.ico').textContent=
+x.classList.contains('liked')
+?'♥'
+:'♡';
 
-  };
+};
 
 });
 
 
 /* IMAGE */
 
-const imagePicker =
+const imagePicker=
 document.getElementById('imagePicker');
 
 
-imagePicker.onchange = () => {
+imagePicker.onchange=()=>{
 
-  const file = imagePicker.files[0];
+const file=
+imagePicker.files[0];
 
-  if(!file) return;
+if(!file)return;
 
-  document.getElementById('pickedImage').textContent =
-    file.name;
 
-  const img =
-    document.getElementById('previewImg');
+document
+.getElementById('pickedImage')
+.textContent=
+file.name;
 
-  img.src =
-    URL.createObjectURL(file);
 
-  document.getElementById('imagePreview').style.display =
-    'block';
+const img=
+document.getElementById('previewImg');
 
-  resetEditor();
+
+img.src=
+URL.createObjectURL(file);
+
+
+document
+.getElementById('imagePreview')
+.style.display='block';
+
+
+resetEditor();
 
 };
 
 
 function resetEditor(){
 
-  document.getElementById('brightness').value=100;
-  document.getElementById('contrast').value=100;
-  document.getElementById('saturation').value=100;
+document.getElementById('brightness').value=100;
 
-  document.getElementById('textInput').value='';
-  document.getElementById('captionInput').value='';
+document.getElementById('contrast').value=100;
 
-  currentFilter='normal';
+document.getElementById('saturation').value=100;
 
-  updateFilterButtons();
-  updateAdjustments();
-  updateTextPreview();
+document.getElementById('textInput').value='';
+
+document.getElementById('captionInput').value='';
+
+currentFilter='normal';
+
+updateFilterButtons();
+
+updateAdjustments();
+
+updateTextPreview();
 
 }
 
@@ -890,84 +1223,113 @@ function resetEditor(){
 
 function applyFilter(type){
 
-  currentFilter=type;
+currentFilter=type;
 
-  updateFilterButtons();
-  updateAdjustments();
+updateFilterButtons();
+
+updateAdjustments();
 
 }
 
 
 function updateFilterButtons(){
 
-  document
-  .querySelectorAll('.filters button')
-  .forEach(b => b.classList.remove('active'));
+document
+.querySelectorAll('.filters button')
+.forEach(b=>
+b.classList.remove('active')
+);
 
-  const id =
-    'filter' +
-    currentFilter.charAt(0).toUpperCase() +
-    currentFilter.slice(1);
 
-  document.getElementById(id).classList.add('active');
+const id=
+'filter'+
+currentFilter.charAt(0).toUpperCase()+
+currentFilter.slice(1);
+
+
+document
+.getElementById(id)
+.classList.add('active');
 
 }
 
 
-/* ADJUST */
+/* ADJUSTMENTS */
 
 function updateAdjustments(){
 
-  const img =
-    document.getElementById('previewImg');
+const img=
+document.getElementById('previewImg');
 
-  if(!img.src) return;
-
-  let b =
-    Number(document.getElementById('brightness').value);
-
-  let c =
-    Number(document.getElementById('contrast').value);
-
-  let s =
-    Number(document.getElementById('saturation').value);
+if(!img.src)return;
 
 
-  if(currentFilter==='cinematic'){
-    b*=.90;
-    c*=1.15;
-    s*=.88;
-  }
+let b=
+Number(
+document.getElementById('brightness').value
+);
 
-  if(currentFilter==='dark'){
-    b*=.65;
-    c*=1.25;
-    s*=.85;
-  }
+let c=
+Number(
+document.getElementById('contrast').value
+);
 
-  if(currentFilter==='vintage'){
-    b*=1.02;
-    c*=1.08;
-    s*=.78;
-  }
+let s=
+Number(
+document.getElementById('saturation').value
+);
 
 
-  let sepia =
-    currentFilter==='vintage' ? .30 : 0;
+if(currentFilter==='cinematic'){
+
+b*=.90;
+c*=1.15;
+s*=.88;
+
+}
 
 
-  img.style.filter =
-    `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
+if(currentFilter==='dark'){
+
+b*=.65;
+c*=1.25;
+s*=.85;
+
+}
 
 
-  document.getElementById('brightnessValue').textContent =
-    document.getElementById('brightness').value+'%';
+if(currentFilter==='vintage'){
 
-  document.getElementById('contrastValue').textContent =
-    document.getElementById('contrast').value+'%';
+b*=1.02;
+c*=1.08;
+s*=.78;
 
-  document.getElementById('saturationValue').textContent =
-    document.getElementById('saturation').value+'%';
+}
+
+
+let sepia=
+currentFilter==='vintage'
+?.30
+:0;
+
+
+img.style.filter=
+`brightness(${b}%)
+contrast(${c}%)
+saturate(${s}%)
+sepia(${sepia})`;
+
+
+document.getElementById('brightnessValue').textContent=
+document.getElementById('brightness').value+'%';
+
+
+document.getElementById('contrastValue').textContent=
+document.getElementById('contrast').value+'%';
+
+
+document.getElementById('saturationValue').textContent=
+document.getElementById('saturation').value+'%';
 
 }
 
@@ -976,24 +1338,179 @@ function updateAdjustments(){
 
 function updateTextPreview(){
 
-  const text =
-    document.getElementById('textInput').value;
+const text=
+document.getElementById('textInput').value;
 
-  const size =
-    document.getElementById('textSize').value;
+const size=
+document.getElementById('textSize').value;
 
-  const color =
-    document.getElementById('textColor').value;
+const color=
+document.getElementById('textColor').value;
 
-  const box =
-    document.getElementById('previewText');
 
-  box.textContent=text;
-  box.style.fontSize=size+'px';
-  box.style.color=color;
+const box=
+document.getElementById('previewText');
 
-  document.getElementById('textSizeValue').textContent =
-    size+'px';
+
+box.textContent=text;
+
+box.style.fontSize=
+size+'px';
+
+box.style.color=color;
+
+
+document.getElementById('textSizeValue').textContent=
+size+'px';
+
+}
+
+
+/* CREATE IMAGE */
+
+function createEditedImage(callback){
+
+const img=
+document.getElementById('previewImg');
+
+
+const image=
+new Image();
+
+
+image.onload=function(){
+
+const canvas=
+document.createElement('canvas');
+
+const ctx=
+canvas.getContext('2d');
+
+
+canvas.width=
+image.naturalWidth;
+
+canvas.height=
+image.naturalHeight;
+
+
+let b=
+Number(
+document.getElementById('brightness').value
+);
+
+let c=
+Number(
+document.getElementById('contrast').value
+);
+
+let s=
+Number(
+document.getElementById('saturation').value
+);
+
+
+if(currentFilter==='cinematic'){
+
+b*=.90;
+c*=1.15;
+s*=.88;
+
+}
+
+
+if(currentFilter==='dark'){
+
+b*=.65;
+c*=1.25;
+s*=.85;
+
+}
+
+
+if(currentFilter==='vintage'){
+
+b*=1.02;
+c*=1.08;
+s*=.78;
+
+}
+
+
+let sepia=
+currentFilter==='vintage'
+?.30
+:0;
+
+
+ctx.filter=
+`brightness(${b}%)
+contrast(${c}%)
+saturate(${s}%)
+sepia(${sepia})`;
+
+
+ctx.drawImage(
+image,
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+ctx.filter='none';
+
+
+const text=
+document
+.getElementById('textInput')
+.value
+.trim();
+
+
+if(text){
+
+const size=
+Number(
+document.getElementById('textSize').value
+);
+
+const color=
+document.getElementById('textColor').value;
+
+
+ctx.fillStyle=color;
+
+ctx.font=
+`900 ${Math.max(size,20)}px sans-serif`;
+
+ctx.textAlign='center';
+
+ctx.textBaseline='bottom';
+
+ctx.shadowColor='rgba(0,0,0,.85)';
+
+ctx.shadowBlur=10;
+
+
+ctx.fillText(
+text,
+canvas.width/2,
+canvas.height-55
+);
+
+}
+
+
+callback(
+canvas.toDataURL('image/jpeg',.88)
+);
+
+};
+
+
+image.src=img.src;
 
 }
 
@@ -1002,340 +1519,90 @@ function updateTextPreview(){
 
 function downloadImage(){
 
-  if(!imagePicker.files.length){
+if(!imagePicker.files.length){
 
-    alert('আগে একটি ছবি নির্বাচন করুন');
-    return;
+alert('আগে একটি ছবি নির্বাচন করুন');
 
-  }
-
-
-  const image =
-    new Image();
-
-  image.onload=function(){
-
-    const canvas =
-      document.createElement('canvas');
-
-    const ctx =
-      canvas.getContext('2d');
-
-    canvas.width=image.naturalWidth;
-    canvas.height=image.naturalHeight;
-
-
-    let b =
-      Number(document.getElementById('brightness').value);
-
-    let c =
-      Number(document.getElementById('contrast').value);
-
-    let s =
-      Number(document.getElementById('saturation').value);
-
-
-    if(currentFilter==='cinematic'){
-      b*=.90;
-      c*=1.15;
-      s*=.88;
-    }
-
-    if(currentFilter==='dark'){
-      b*=.65;
-      c*=1.25;
-      s*=.85;
-    }
-
-    if(currentFilter==='vintage'){
-      b*=1.02;
-      c*=1.08;
-      s*=.78;
-    }
-
-
-    let sepia =
-      currentFilter==='vintage' ? .30 : 0;
-
-
-    ctx.filter =
-      `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
-
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-    ctx.filter='none';
-
-
-    const text =
-      document.getElementById('textInput').value.trim();
-
-
-    if(text){
-
-      const size =
-        Number(document.getElementById('textSize').value);
-
-      const color =
-        document.getElementById('textColor').value;
-
-
-      ctx.fillStyle=color;
-
-      ctx.font=
-        `900 ${Math.max(size,20)}px sans-serif`;
-
-      ctx.textAlign='center';
-      ctx.textBaseline='bottom';
-
-      ctx.shadowColor='rgba(0,0,0,.85)';
-      ctx.shadowBlur=10;
-
-
-      const maxWidth =
-        canvas.width*.88;
-
-      const words=text.split(' ');
-
-      let lines=[];
-      let line='';
-
-
-      words.forEach(word=>{
-
-        const test=
-          line ? line+' '+word : word;
-
-        if(ctx.measureText(test).width>maxWidth){
-
-          if(line) lines.push(line);
-
-          line=word;
-
-        }else{
-
-          line=test;
-
-        }
-
-      });
-
-
-      if(line) lines.push(line);
-
-
-      const lineHeight=size*1.25;
-
-      const startY=
-        canvas.height-55-
-        ((lines.length-1)*lineHeight);
-
-
-      lines.forEach((lineText,index)=>{
-
-        ctx.fillText(
-          lineText,
-          canvas.width/2,
-          startY+index*lineHeight
-        );
-
-      });
-
-    }
-
-
-    const link =
-      document.createElement('a');
-
-    link.download=
-      'chhayachobi-edited.jpg';
-
-    link.href=
-      canvas.toDataURL('image/jpeg',.95);
-
-    link.click();
-
-  };
-
-
-  image.src =
-    document.getElementById('previewImg').src;
+return;
 
 }
 
 
-/* REAL LOCAL POST */
+createEditedImage(data=>{
+
+const link=
+document.createElement('a');
+
+link.download=
+'chhayachobi-edited.jpg';
+
+link.href=data;
+
+link.click();
+
+alert('✅ ছবি Save হয়েছে');
+
+});
+
+}
+
+
+/* POST */
 
 function postImage(){
 
-  if(!imagePicker.files.length){
+if(!imagePicker.files.length){
 
-    alert('আগে একটি ছবি নির্বাচন করুন');
-    return;
+alert('আগে একটি ছবি নির্বাচন করুন');
 
-  }
+return;
 
+}
 
-  const caption =
-    document.getElementById('captionInput').value;
 
+const caption=
+document.getElementById('captionInput').value;
 
-  const img =
-    document.getElementById('previewImg');
 
+createEditedImage(data=>{
 
-  const image =
-    new Image();
+const posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
 
 
-  image.onload=function(){
+posts.unshift({
 
-    const canvas =
-      document.createElement('canvas');
+id:Date.now(),
 
-    const ctx =
-      canvas.getContext('2d');
+image:data,
 
+caption:caption,
 
-    canvas.width=image.naturalWidth;
-    canvas.height=image.naturalHeight;
+likes:0,
 
+liked:false,
 
-    let b =
-      Number(document.getElementById('brightness').value);
+comments:[]
 
-    let c =
-      Number(document.getElementById('contrast').value);
+});
 
-    let s =
-      Number(document.getElementById('saturation').value);
 
+localStorage.setItem(
+'chhayachobi_posts',
+JSON.stringify(posts)
+);
 
-    if(currentFilter==='cinematic'){
-      b*=.90;
-      c*=1.15;
-      s*=.88;
-    }
 
-    if(currentFilter==='dark'){
-      b*=.65;
-      c*=1.25;
-      s*=.85;
-    }
+alert('🎉 পোস্ট সফল হয়েছে!');
 
-    if(currentFilter==='vintage'){
-      b*=1.02;
-      c*=1.08;
-      s*=.78;
-    }
+loadPosts();
 
+closePanel();
 
-    let sepia =
-      currentFilter==='vintage' ? .30 : 0;
-
-
-    ctx.filter =
-      `brightness(${b}%) contrast(${c}%) saturate(${s}%) sepia(${sepia})`;
-
-    ctx.drawImage(
-      image,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-    ctx.filter='none';
-
-
-    const text =
-      document.getElementById('textInput').value.trim();
-
-
-    if(text){
-
-      const size =
-        Number(document.getElementById('textSize').value);
-
-      const color =
-        document.getElementById('textColor').value;
-
-
-      ctx.fillStyle=color;
-
-      ctx.font=
-        `900 ${Math.max(size,20)}px sans-serif`;
-
-      ctx.textAlign='center';
-      ctx.textBaseline='bottom';
-
-      ctx.shadowColor='rgba(0,0,0,.85)';
-      ctx.shadowBlur=10;
-
-
-      ctx.fillText(
-        text,
-        canvas.width/2,
-        canvas.height-55
-      );
-
-    }
-
-
-    const finalImage =
-      canvas.toDataURL('image/jpeg',.88);
-
-
-    const posts =
-      JSON.parse(
-        localStorage.getItem('chhayachobi_posts') || '[]'
-      );
-
-
-    posts.unshift({
-
-      id:Date.now(),
-
-      image:finalImage,
-
-      caption:caption,
-
-      likes:0,
-
-      liked:false
-
-    });
-
-
-    localStorage.setItem(
-      'chhayachobi_posts',
-      JSON.stringify(posts)
-    );
-
-
-    alert('🎉 ছবি সফলভাবে পোস্ট হয়েছে!');
-
-
-    loadPosts();
-
-    closePanel();
-
-    document
-      .getElementById('feed')
-      .scrollTo({
-        top:0,
-        behavior:'smooth'
-      });
-
-  };
-
-
-  image.src=img.src;
+});
 
 }
 
@@ -1344,172 +1611,543 @@ function postImage(){
 
 function loadPosts(){
 
-  const posts =
-    JSON.parse(
-      localStorage.getItem('chhayachobi_posts') || '[]'
-    );
+const posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
 
 
-  const container =
-    document.getElementById('userPosts');
-
-  const profile =
-    document.getElementById('profilePosts');
+const container=
+document.getElementById('userPosts');
 
 
-  container.innerHTML='';
-
-  profile.innerHTML='';
-
-
-  document.getElementById('postCount').textContent =
-    posts.length;
+const profile=
+document.getElementById('profilePosts');
 
 
-  if(posts.length===0){
+container.innerHTML='';
 
-    profile.innerHTML=
-      '<div class="empty">এখনও কোনো পোস্ট নেই 📷</div>';
-
-    return;
-
-  }
+profile.innerHTML='';
 
 
-  posts.forEach(post=>{
-
-    const card =
-      document.createElement('section');
-
-    card.className='card';
+document.getElementById('postCount').textContent=
+posts.length;
 
 
-    card.innerHTML=`
+let totalLikes=0;
 
-      <img class="cardImage" src="${post.image}">
-
-      <div class="fade"></div>
-
-      <div class="info">
-
-        <div class="user">
-          @rabbi_official ✓
-        </div>
-
-        <div class="postCaption">
-          ${escapeHTML(post.caption)}
-        </div>
-
-        <div class="music">
-          ♫ Original sound — ছায়াছবি
-        </div>
-
-      </div>
-
-      <div class="actions">
-
-        <div class="avatar">R</div>
-
-        <div class="action likePost" data-id="${post.id}">
-
-          <div class="ico">
-            ${post.liked ? '♥' : '♡'}
-          </div>
-
-          <span>
-            ${post.likes}
-          </span>
-
-        </div>
-
-        <div class="action">
-
-          <div class="ico">↗</div>
-
-          <span>শেয়ার</span>
-
-        </div>
-
-      </div>
-
-    `;
+posts.forEach(post=>{
+totalLikes+=post.likes||0;
+});
 
 
-    container.appendChild(card);
+document.getElementById('totalLikes').textContent=
+totalLikes;
 
 
-    const tile =
-      document.createElement('div');
+if(posts.length===0){
 
-    tile.className='tile';
+profile.innerHTML=
+'<div class="empty">এখনও কোনো পোস্ট নেই 📷</div>';
 
-    tile.style.backgroundImage=
-      `url("${post.image}")`;
-
-    tile.style.backgroundSize='cover';
-
-    tile.style.backgroundPosition='center';
-
-    profile.appendChild(tile);
-
-  });
-
-
-  document
-  .querySelectorAll('.likePost')
-  .forEach(button=>{
-
-    button.onclick=()=>{
-
-      const id=
-        Number(button.dataset.id);
-
-      togglePostLike(id);
-
-    };
-
-  });
+return;
 
 }
 
 
-/* LIKE POST */
+posts.forEach(post=>{
+
+const card=
+document.createElement('section');
+
+card.className='card';
+
+
+card.innerHTML=`
+
+<img class="cardImage" src="${post.image}">
+
+<div class="fade"></div>
+
+<div class="info">
+
+<div class="user">
+@rabbi_official ✓
+</div>
+
+<div class="postCaption">
+${escapeHTML(post.caption)}
+</div>
+
+<div class="music">
+♫ Original sound — ছায়াছবি
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<div class="avatar">
+R
+</div>
+
+
+<div
+class="action likePost"
+data-id="${post.id}"
+>
+
+<div class="ico">
+${post.liked?'♥':'♡'}
+</div>
+
+<span>
+${post.likes||0}
+</span>
+
+</div>
+
+
+<div
+class="action commentPost"
+data-id="${post.id}"
+>
+
+<div class="ico">
+💬
+</div>
+
+<span>
+${(post.comments||[]).length}
+</span>
+
+</div>
+
+
+<div
+class="action sharePost"
+data-id="${post.id}"
+>
+
+<div class="ico">
+↗
+</div>
+
+<span>
+শেয়ার
+</span>
+
+</div>
+
+
+<div
+class="action deletePost"
+data-id="${post.id}"
+>
+
+<div class="ico">
+🗑️
+</div>
+
+<span>
+মুছুন
+</span>
+
+</div>
+
+</div>
+
+`;
+
+
+container.appendChild(card);
+
+
+/* PROFILE TILE */
+
+const tile=
+document.createElement('div');
+
+tile.className='tile';
+
+tile.style.backgroundImage=
+`url("${post.image}")`;
+
+profile.appendChild(tile);
+
+});
+
+
+/* LIKE */
+
+document
+.querySelectorAll('.likePost')
+.forEach(button=>{
+
+button.onclick=()=>{
+
+togglePostLike(
+Number(button.dataset.id)
+);
+
+};
+
+});
+
+
+/* COMMENT */
+
+document
+.querySelectorAll('.commentPost')
+.forEach(button=>{
+
+button.onclick=()=>{
+
+openComments(
+Number(button.dataset.id)
+);
+
+};
+
+});
+
+
+/* SHARE */
+
+document
+.querySelectorAll('.sharePost')
+.forEach(button=>{
+
+button.onclick=()=>{
+
+openShare(
+Number(button.dataset.id)
+);
+
+};
+
+});
+
+
+/* DELETE */
+
+document
+.querySelectorAll('.deletePost')
+.forEach(button=>{
+
+button.onclick=()=>{
+
+deletePost(
+Number(button.dataset.id)
+);
+
+};
+
+});
+
+}
+
+
+/* LIKE */
 
 function togglePostLike(id){
 
-  const posts =
-    JSON.parse(
-      localStorage.getItem('chhayachobi_posts') || '[]'
-    );
+const posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
 
 
-  const post =
-    posts.find(x=>x.id===id);
+const post=
+posts.find(x=>x.id===id);
+
+if(!post)return;
 
 
-  if(!post) return;
+if(post.liked){
+
+post.likes=
+Math.max(0,(post.likes||0)-1);
+
+post.liked=false;
+
+}else{
+
+post.likes=
+(post.likes||0)+1;
+
+post.liked=true;
+
+}
 
 
-  if(post.liked){
-
-    post.likes=Math.max(0,post.likes-1);
-    post.liked=false;
-
-  }else{
-
-    post.likes++;
-    post.liked=true;
-
-  }
+localStorage.setItem(
+'chhayachobi_posts',
+JSON.stringify(posts)
+);
 
 
-  localStorage.setItem(
-    'chhayachobi_posts',
-    JSON.stringify(posts)
-  );
+loadPosts();
+
+}
 
 
-  loadPosts();
+/* COMMENT */
+
+function openComments(id){
+
+activeCommentPost=id;
+
+const box=
+document.getElementById('commentBox');
+
+box.classList.add('show');
+
+loadComments();
+
+}
+
+
+function closeComments(){
+
+activeCommentPost=null;
+
+document
+.getElementById('commentBox')
+.classList.remove('show');
+
+}
+
+
+function loadComments(){
+
+const posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
+
+
+const post=
+posts.find(
+x=>x.id===activeCommentPost
+);
+
+
+const list=
+document.getElementById('commentsList');
+
+
+list.innerHTML='';
+
+
+if(!post ||
+!post.comments ||
+post.comments.length===0){
+
+list.innerHTML=
+'<div class="muted">এখনও কোনো মন্তব্য নেই।</div>';
+
+return;
+
+}
+
+
+post.comments.forEach(comment=>{
+
+const item=
+document.createElement('div');
+
+item.className='commentItem';
+
+item.innerHTML=
+`
+<span class="commentUser">
+@rabbi_official
+</span>
+<br>
+${escapeHTML(comment)}
+`;
+
+list.appendChild(item);
+
+});
+
+}
+
+
+function sendComment(){
+
+const input=
+document.getElementById('commentInput');
+
+
+const text=
+input.value.trim();
+
+
+if(!text){
+
+alert('মন্তব্য লিখুন');
+
+return;
+
+}
+
+
+const posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
+
+
+const post=
+posts.find(
+x=>x.id===activeCommentPost
+);
+
+
+if(!post)return;
+
+
+if(!post.comments)
+post.comments=[];
+
+
+post.comments.push(text);
+
+
+localStorage.setItem(
+'chhayachobi_posts',
+JSON.stringify(posts)
+);
+
+
+input.value='';
+
+loadComments();
+
+loadPosts();
+
+}
+
+
+/* SHARE */
+
+function openShare(id){
+
+activeSharePost=id;
+
+document
+.getElementById('shareBox')
+.classList.add('show');
+
+}
+
+
+function closeShare(){
+
+activeSharePost=null;
+
+document
+.getElementById('shareBox')
+.classList.remove('show');
+
+}
+
+
+function copyPostLink(){
+
+const link=
+location.href+
+'#post-'+
+activeSharePost;
+
+
+if(navigator.clipboard){
+
+navigator.clipboard.writeText(link);
+
+alert('🔗 লিংক কপি হয়েছে');
+
+}else{
+
+alert('লিংক কপি করা সম্ভব হয়নি');
+
+}
+
+}
+
+
+function nativeShare(){
+
+const link=
+location.href+
+'#post-'+
+activeSharePost;
+
+
+if(navigator.share){
+
+navigator.share({
+
+title:'ছায়াছবি',
+
+text:'ছায়াছবিতে একটি পোস্ট দেখুন',
+
+url:link
+
+});
+
+}else{
+
+copyPostLink();
+
+}
+
+}
+
+
+/* DELETE */
+
+function deletePost(id){
+
+const ok=
+confirm(
+'এই পোস্টটি মুছে ফেলতে চান?'
+);
+
+
+if(!ok)return;
+
+
+let posts=
+JSON.parse(
+localStorage.getItem('chhayachobi_posts')
+||'[]'
+);
+
+
+posts=
+posts.filter(
+post=>post.id!==id
+);
+
+
+localStorage.setItem(
+'chhayachobi_posts',
+JSON.stringify(posts)
+);
+
+
+loadPosts();
+
+
+alert('🗑️ পোস্ট মুছে ফেলা হয়েছে');
 
 }
 
@@ -1518,12 +2156,17 @@ function togglePostLike(id){
 
 function escapeHTML(text){
 
-  return String(text || '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
+return String(text||'')
+
+.replaceAll('&','&amp;')
+
+.replaceAll('<','&lt;')
+
+.replaceAll('>','&gt;')
+
+.replaceAll('"','&quot;')
+
+.replaceAll("'","&#039;");
 
 }
 
