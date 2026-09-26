@@ -33,7 +33,46 @@ body{overflow:hidden}.app{height:100vh;position:relative;background:#05070a}
 </main>
 <nav class="nav"><button class="active" onclick="home()"> <b>⌂</b>হোম</button><button onclick="openPanel('search')"><b>⌕</b>আবিষ্কার</button><button class="plus" onclick="openPanel('upload')">+</button><button onclick="openPanel('notify')"><b>♡</b>ইনবক্স</button><button onclick="openPanel('profile')"><b>◯</b>প্রোফাইল</button></nav>
 
-<section id="upload" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="title">ভিডিও আপলোড</div><label class="uploadbox"><div><div style="font-size:45px">↑</div><b>ভিডিও নির্বাচন করুন</b><div class="muted">MP4 / MOV • সর্বোচ্চ 60 সেকেন্ড</div></div><input id="videoPicker" type="file" accept="video/*" hidden></label><div id="picked" class="field">কোনো ভিডিও নির্বাচন করা হয়নি</div><div class="field">ক্যাপশন লিখুন...</div><div class="field">#হ্যাশট্যাগ  + যোগ করুন</div><div class="field">🌐 Public ▾</div><button class="btn" onclick="postVideo()">পোস্ট করুন</button></section>
+<section id="upload" class="panel">
+<button class="back" onclick="closePanel()">‹</button>
+
+<div class="title">ছবি আপলোড</div>
+
+<label class="uploadbox" for="imagePicker">
+  <div>
+    <div style="font-size:45px">📷</div>
+    <b>ছবি নির্বাচন করুন</b>
+    <div class="muted">JPG / PNG / WEBP</div>
+  </div>
+</label>
+
+<input id="imagePicker" type="file" accept="image/*" hidden>
+
+<div id="imagePreview" style="
+display:none;
+margin:15px 0;
+border-radius:18px;
+overflow:hidden;
+background:#101318;
+">
+<img id="previewImg" style="
+width:100%;
+display:block;
+max-height:400px;
+object-fit:contain;
+">
+</div>
+
+<div id="pickedImage" class="field">
+কোনো ছবি নির্বাচন করা হয়নি
+</div>
+
+<div class="field">ক্যাপশন লিখুন...</div>
+<div class="field">#হ্যাশট্যাগ + যোগ করুন</div>
+<div class="field">🌐 Public ▾</div>
+
+<button class="btn" onclick="postImage()">ছবি পোস্ট করুন</button>
+</section><button class="back" onclick="closePanel()">‹</button><div class="title">ভিডিও আপলোড</div><label class="uploadbox"><div><div style="font-size:45px">↑</div><b>ভিডিও নির্বাচন করুন</b><div class="muted">MP4 / MOV • সর্বোচ্চ 60 সেকেন্ড</div></div><input id="videoPicker" type="file" accept="video/*" hidden></label><div id="picked" class="field">কোনো ভিডিও নির্বাচন করা হয়নি</div><div class="field">ক্যাপশন লিখুন...</div><div class="field">#হ্যাশট্যাগ  + যোগ করুন</div><div class="field">🌐 Public ▾</div><button class="btn" onclick="postVideo()">পোস্ট করুন</button></section>
 
 <section id="profile" class="panel"><button class="back" onclick="closePanel()">‹</button><div class="profileHead"><div class="avatar big">R</div><h2>Rabbi</h2><div class="muted">@rabbi_official</div></div><div class="stats"><div class="stat"><b>128</b><span class="muted">ফলোইং</span></div><div class="stat"><b>36</b><span class="muted">ফলোয়ার</span></div><div class="stat"><b>4.2K</b><span class="muted">লাইক</span></div></div><button class="btn">প্রোফাইল এডিট</button><div class="title" style="font-size:18px">আমার ভিডিও</div><div class="grid"><div class="tile">🎬</div><div class="tile">🌧️</div><div class="tile">🌅</div><div class="tile">🖤</div><div class="tile">🎥</div><div class="tile">✨</div></div></section>
 
@@ -50,7 +89,30 @@ function home(){closePanel();document.getElementById('feed').scrollTo({top:0,beh
 function downloadDemo(){alert('ডাউনলোড ফিচারটি UI prototype-এ প্রস্তুত। Real app-এ cloud video URL থেকে নিরাপদ download যুক্ত হবে।')}
 document.querySelectorAll('.like').forEach(x=>x.onclick=()=>{x.classList.toggle('liked');x.querySelector('.ico').textContent=x.classList.contains('liked')?'♥':'♡'})
 const picker=document.getElementById('videoPicker'); picker.onchange=()=>{document.getElementById('picked').textContent=picker.files[0]?picker.files[0].name:'কোনো ভিডিও নির্বাচন করা হয়নি'}
-function postVideo(){if(!picker.files.length){alert('আগে একটি ভিডিও নির্বাচন করুন');return} alert('ভিডিওটি নির্বাচিত হয়েছে। Backend যুক্ত হলে এটি server-এ upload হবে।');closePanel()}
+function postVideo(){if(!picker.files.length){alert('আগে একটি ভিডিও নির্বাচন করুন');return} alert('ভিডিওটি নির্বাচিত হয়েছে। Backend যুক্ত হলে এটি server-এ upload হবে।');closePanel()}const imagePicker = document.getElementById('imagePicker');
+
+imagePicker.onchange = () => {
+  const file = imagePicker.files[0];
+
+  if (!file) return;
+
+  document.getElementById('pickedImage').textContent = file.name;
+
+  const preview = document.getElementById('imagePreview');
+  const img = document.getElementById('previewImg');
+
+  img.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+};
+
+function postImage() {
+  if (!imagePicker.files.length) {
+    alert('আগে একটি ছবি নির্বাচন করুন');
+    return;
+  }
+
+  alert('ছবিটি সফলভাবে নির্বাচন করা হয়েছে।');
+}
 </script>
 </body>
 </html>
